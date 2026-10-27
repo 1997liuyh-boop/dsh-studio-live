@@ -3,7 +3,7 @@
   "id": "live",
   "name": "直播工作室",
   "icon": "🎙️",
-  "description": "AI 游戏直播：dsh 模型、弹幕队列、语音形象、OBS 与星露谷适配",
+  "description": "AI 游戏直播：dsh 模型、B站弹幕、VRM 与云端语音、OBS 和游戏适配",
   "order": 16,
   "entry": "/studio-projects/live",
   "capabilities": [
@@ -11,7 +11,11 @@
     "dsh-session",
     "danmaku-bridge",
     "obs-overlay",
-    "stardew-adapter"
+    "stardew-adapter",
+    "bilibili-danmaku",
+    "vrm-avatar",
+    "cloud-tts",
+    "minecraft-adapter"
   ],
   "compatibility": {
     "host": "0.2.1-rc.2",

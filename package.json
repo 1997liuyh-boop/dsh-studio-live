@@ -1,6 +1,6 @@
 {
   "name": "dsh-studio-live-source",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -15,12 +15,21 @@
     "pack": "node scripts/pack.mjs"
   },
   "devDependencies": {
+    "@pixiv/three-vrm": "^3.5.5",
     "@tailwindcss/postcss": "^4.1.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@types/ws": "^8.18.2",
     "esbuild": "^0.28.2",
-    "postcss": "8.5.15",
+    "mineflayer": "^4.39.0",
+    "msedge-tts": "^2.1.1",
+    "postcss": "^8.5.32",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "tailwindcss": "4.3.0",
-    "typescript": "6.0.3"
+    "three": "^0.186.1",
+    "typescript": "6.0.3",
+    "ws": "^8.22.0"
   }
 }

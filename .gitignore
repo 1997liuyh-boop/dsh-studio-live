@@ -18,6 +18,7 @@ work-local-dependencies/
 **/*.tsbuildinfo
 **/06_private/
 studio-data/
+.test-build/
 coverage/
 .DS_Store
 **/bin/

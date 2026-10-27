@@ -1,3 +1,6 @@
 @import "tailwindcss";
 @source "./main.tsx";
 @source "./index.ts";
+@source "./overlay.ts";
+@source "./stage.ts";
+@source "./bridge.tsx";

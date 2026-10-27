@@ -1,7 +1,7 @@
 {
   "name": "dsh-studio-live",
-  "version": "0.1.1",
-  "description": "AI 游戏直播：dsh 模型、弹幕队列、语音形象、OBS 与星露谷适配",
+  "version": "0.2.0",
+  "description": "AI 游戏直播：dsh 模型、B站弹幕、VRM 与云端语音、OBS 和游戏适配",
   "entry": {
     "name": "dsh-studio-live",
     "inject": [

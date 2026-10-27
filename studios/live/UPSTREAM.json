@@ -1,5 +1,13 @@
 {
   "license": "MIT",
   "source": "src",
-  "note": "本库独立开发"
+  "references": [
+    { "name": "ai-vtuber-live", "kind": "local-source", "modules": ["WBI 与弹幕协议", "云端语音", "VRM 渲染", "完整方案"] },
+    { "name": "three-vrm", "url": "https://github.com/pixiv/three-vrm", "license": "MIT" },
+    { "name": "Three.js", "url": "https://github.com/mrdoob/three.js", "license": "MIT" },
+    { "name": "MsEdgeTTS", "url": "https://github.com/Migushthe2nd/MsEdgeTTS", "license": "MIT" },
+    { "name": "ws", "url": "https://github.com/websockets/ws", "license": "MIT" },
+    { "name": "Mineflayer", "url": "https://github.com/PrismarineJS/mineflayer", "license": "MIT" }
+  ],
+  "note": "工作室生命周期、dsh 会话和队列由本库适配；没有复制本机私有配置、账号 Cookie 或模型资源。"
 }

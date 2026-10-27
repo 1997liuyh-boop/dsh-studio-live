@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext", "moduleResolution": "Bundler", "jsx": "react-jsx",
+    "strict": true, "skipLibCheck": true, "noEmit": true, "types": ["node"],
+    "paths": { "@deepseek-ai/*": ["../../deepseek-harness/node_modules/.pnpm/node_modules/@deepseek-ai/*"] }
+  },
+  "include": ["studios/live/src/**/*.ts", "studios/live/src/**/*.tsx", "packages/sdk/*.ts", "packages/sdk/*.tsx"]
+}

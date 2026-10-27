@@ -3,6 +3,7 @@ export interface FarmState { x: number; y: number; seeds: number; harvest: numbe
 export const newFarm = (): FarmState => ({ x: 0, y: 0, seeds: 8, harvest: 0, plots: Array(36).fill(0) })
 export const gameActions = ['up', 'down', 'left', 'right', 'plant', 'water', 'harvest', 'wait'] as const
 export type FarmAction = typeof gameActions[number]
+export const minecraftActions = ['forward', 'back', 'left', 'right', 'jump', 'lookLeft', 'lookRight', 'digLog', 'digStone', 'wait', 'stop'] as const
 
 /** 每次最多一步，边缘不会越界，作物只在浇水和等待后成熟。 */
 export function stepFarm(state: FarmState, action: FarmAction): FarmState {

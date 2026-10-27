@@ -5,7 +5,7 @@ const record = (value: unknown): JsonObject => value && typeof value === 'object
 export class LiveModel {
   private sessionId = ''
   private controller?: AbortController
-  constructor(private publish: (text: string) => void) {}
+  constructor(private publish: (text: string) => void, private title = '直播工作室') {}
 
   private async rpc(method: string, request: object, signal?: AbortSignal): Promise<JsonObject> {
     const rpcId = crypto.randomUUID()
@@ -19,7 +19,7 @@ export class LiveModel {
   }
 
   /** 只允许一个在途请求；完成以真实 turn/end 为准，流断开会明确失败。 */
-  async ask(prompt: string): Promise<string> {
+  async ask(prompt: string, onText?: (text: string) => void): Promise<string> {
     if (this.controller) throw new Error('AI 正在处理上一条消息')
     const controller = new AbortController()
     this.controller = controller
@@ -33,14 +33,16 @@ export class LiveModel {
         const created = await this.rpc('session/create', { sessionId: reserved.sessionId }, signal)
         if (typeof created.sessionId !== 'string') throw new Error('dsh 未返回会话标识')
         this.sessionId = created.sessionId
-        await this.rpc('session/rename', { sessionId: this.sessionId, title: '直播工作室' }, signal)
+        await this.rpc('session/rename', { sessionId: this.sessionId, title: this.title }, signal)
       }
       const response = await fetch('/.dsh/remote-stream', { method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ endpoint: 'session/follow', payload: { args: { request: { address: { kind: 'session', sessionId: this.sessionId }, assistantStream: true } } } }), signal })
       if (!response.ok || !response.body) throw new Error('直播会话流不可用，请使用 Windows 桌面端')
       reader = response.body.getReader()
-      await this.rpc('session/prompt', { sessionId: this.sessionId, requestId: crypto.randomUUID(), mode: 'queue', content: [{ type: 'text', text: prompt }] }, signal)
+      const requestId = crypto.randomUUID()
+      await this.rpc('session/prompt', { sessionId: this.sessionId, requestId, mode: 'queue', content: [{ type: 'text', text: prompt }] }, signal)
       let pending = '', output = ''
+      let currentTurn: number | undefined, targetTurn: number | undefined, attemptId: string | undefined
       const decoder = new TextDecoder()
       for (;;) {
         const chunk = await reader.read()
@@ -51,15 +53,25 @@ export class LiveModel {
           if (!line.trim()) continue
           const frame = record(JSON.parse(line))
           if (frame.type === 'assistant-stream') {
-            const delta = record(record(frame.frame).chunk)
-            if (delta.type === 'text-delta' && typeof delta.text === 'string') { output += delta.text; this.publish(output) }
+            const stream = record(frame.frame)
+            if (stream.type === 'start') {
+              if (targetTurn === undefined || stream.turn !== targetTurn) continue
+              if (output) throw new Error('模型开始重新生成，直播已停止，请检查会话后重试')
+              output = ''; attemptId = typeof stream.attemptId === 'string' ? stream.attemptId : undefined
+            }
+            if (!attemptId || stream.attemptId !== attemptId) continue
+            if (stream.type === 'end' && record(stream.outcome).kind === 'abandoned' && output) throw new Error('模型放弃了当前回复，直播已停止，请检查会话后重试')
+            const delta = record(stream.chunk)
+            if (delta.type === 'text-delta' && typeof delta.text === 'string') { output += delta.text; this.publish(output); onText?.(output) }
           } else if (frame.type === 'event') {
             const event = record(frame.event), data = record(event.data)
-            if (event.type === 'assistant/message') {
+            if (event.type === 'turn/start' && typeof data.turn === 'number') currentTurn = data.turn
+            if (event.type === 'user/message' && record(data.source).rpcId === requestId) targetTurn = currentTurn
+            if (event.type === 'assistant/message' && targetTurn !== undefined && data.turn === targetTurn) {
               const content = record(data.message).content
               if (Array.isArray(content)) { output = content.map(value => { const block = record(value); return block.type === 'text' ? String(block.text) : '' }).join('\n'); this.publish(output) }
             }
-            if (event.type === 'turn/end') {
+            if (event.type === 'turn/end' && targetTurn !== undefined && data.turn === targetTurn) {
               if (record(data.reason).kind !== 'completed' || !output.trim()) throw new Error('直播推理未完成，请查看 dsh 会话')
               return output.trim()
             }
