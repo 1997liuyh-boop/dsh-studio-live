@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "live",
+  "name": "直播工作室",
+  "icon": "🎙️",
+  "description": "AI 游戏直播：dsh 模型、弹幕队列、语音形象、OBS 与星露谷适配",
+  "order": 16,
+  "entry": "/studio-projects/live",
+  "capabilities": [
+    "local-preview",
+    "dsh-session",
+    "danmaku-bridge",
+    "obs-overlay",
+    "stardew-adapter"
+  ],
+  "compatibility": {
+    "host": "0.2.1-rc.2",
+    "runtime": "^0.5.0",
+    "worktable": "^0.6.0"
+  }
+}

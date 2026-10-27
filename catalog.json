@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "name": "dsh-studio-live",
+  "version": "0.1.0",
+  "kind": "studio",
+  "packages": [
+    {
+      "id": "live",
+      "path": "studios/live"
+    }
+  ]
+}

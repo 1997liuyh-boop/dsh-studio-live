@@ -1,0 +1,9 @@
+{
+  "Name": "DSH Live Studio",
+  "Author": "DSH Studio Library contributors",
+  "Version": "0.1.0",
+  "Description": "本机单人游戏的有界按键与状态桥；F8 紧急停止。",
+  "UniqueID": "DshStudio.Live",
+  "EntryDll": "DshLive.dll",
+  "MinimumApiVersion": "4.0.0"
+}
