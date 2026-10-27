@@ -2,6 +2,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from 'node:ht
 import { fileURLToPath } from 'node:url'
 import { randomBytes, randomUUID } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import type { Context } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-agent'
 import type {} from '@deepseek-ai/dsh-tools'
@@ -9,6 +10,7 @@ import { obsRequest, record } from './obs'
 import { BiliGateway } from './bilibili'
 import { synthesize } from './tts'
 import { MinecraftAdapter } from './minecraft'
+import { readLive2dPackage, live2dContentType, type Live2dPackage } from './live2d-package'
 
 export const name = 'dsh-studio-live'
 export const inject = ['studioProjects', 'tools']
@@ -37,8 +39,21 @@ export async function apply(ctx: Host & Context): Promise<void> {
   })
   const token = randomBytes(32).toString('hex')
   const styles = await readFile(new URL('../static/app.css', import.meta.url), 'utf8')
-  let overlay = { text: '', speaking: false, avatar: '', mouth: 0, emotion: 'neutral', avatarKind: '', avatarVersion: 0 }
+  let overlay = { text: '', speaking: false, avatar: '', mouth: 0, emotion: 'neutral', expression: '', avatarKind: '', avatarVersion: 0 }
   let asset: Buffer | undefined, assetType = ''
+  let live2d: Live2dPackage | undefined
+  const corePath = new URL('../static/live2dcubismcore.min.js', import.meta.url), samplePath = new URL('../static/Haru.zip', import.meta.url)
+  const core = existsSync(corePath) ? await readFile(corePath) : undefined
+  const sample = existsSync(samplePath) ? await readFile(samplePath) : undefined
+  const live2dScript = await readFile(new URL('../static/live2d.js', import.meta.url))
+  const modelPath = () => String(overlay.avatarVersion) + '/' + live2d!.entry.split('/').map(encodeURIComponent).join('/')
+  const serveModel = (res: ServerResponse, path: string) => {
+    const separator = path.indexOf('/')
+    let file: Uint8Array | undefined, name = ''
+    try { name = decodeURIComponent(path.slice(separator + 1)); if (path.slice(0, separator) === String(overlay.avatarVersion)) file = live2d?.files.get(name) }
+    catch (error) { if (!(error instanceof URIError)) throw error }
+    res.writeHead(file ? 200 : 404, { 'content-type': live2dContentType(name), 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' }); res.end(file)
+  }
   const gateway = new BiliGateway()
   const minecraft = new MinecraftAdapter()
   let runId = '', leaseAt = 0, runController = new AbortController()
@@ -57,21 +72,26 @@ export async function apply(ctx: Host & Context): Promise<void> {
   const serial = (action: () => Promise<void>) => { const task = transitions.then(action); transitions = task.catch(error => console.warn('直播生命周期操作失败', error)); return task }
   const requireRun = (id: unknown) => { if (!runId || id !== runId || runController.signal.aborted) throw new Error('直播运行已结束，请重新开始预演'); leaseAt = Date.now() }
   const leaseTimer = setInterval(() => { if (runId && Date.now() - leaseAt > 15000) void serial(stopRuntime) }, 3000)
-  ctx.effect(() => async () => { clearInterval(leaseTimer); await serial(stopRuntime); asset = undefined }, '直播：停止连接、语音与所属会话')
+  ctx.effect(() => async () => { clearInterval(leaseTimer); await serial(stopRuntime); asset = undefined; live2d = undefined }, '直播：停止连接、语音与所属会话')
   const overlayScript = await readFile(new URL('../static/overlay.js', import.meta.url))
   const server = createServer((req, res) => {
     const url = new URL(req.url ?? '/', 'http://127.0.0.1')
-    if (req.method !== 'GET' || req.headers.host !== `127.0.0.1:${port}` || url.searchParams.get('token') !== token) { res.writeHead(403); res.end(); return }
+    const modelPrefix = '/models/' + token + '/'
+    const modelRequest = url.pathname.startsWith(modelPrefix)
+    if (req.method !== 'GET' || req.headers.host !== `127.0.0.1:${port}` || !modelRequest && url.searchParams.get('token') !== token) { res.writeHead(403); res.end(); return }
     res.setHeader('cache-control', 'no-store')
     res.setHeader('x-content-type-options', 'nosniff')
-    if (url.pathname === '/state') { res.setHeader('content-type', 'application/json'); res.end(JSON.stringify(overlay)); return }
+    if (modelRequest) { serveModel(res, url.pathname.slice(modelPrefix.length)); return }
+    if (url.pathname === '/state') { res.setHeader('content-type', 'application/json'); res.end(JSON.stringify({ ...overlay, modelUrl: live2d ? modelPrefix + modelPath() : '' })); return }
     if (url.pathname === '/avatar' && asset) { res.setHeader('content-type', assetType); res.end(asset); return }
     if (url.pathname === '/overlay.js') { res.setHeader('content-type', 'text/javascript'); res.end(overlayScript); return }
+    if (url.pathname === '/live2d.js') { res.setHeader('content-type', 'text/javascript'); res.end(live2dScript); return }
+    if (url.pathname === '/live2dcubismcore.min.js' && core) { res.setHeader('content-type', 'text/javascript'); res.end(core); return }
     if (url.pathname === '/overlay.css') { res.setHeader('content-type', 'text/css'); res.end(styles); return }
     if (url.pathname !== '/overlay') { res.writeHead(404); res.end(); return }
     res.setHeader('content-type', 'text/html; charset=utf-8')
-    res.setHeader('content-security-policy', "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' blob: data:; worker-src blob:")
-    res.end(`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><link rel="stylesheet" href="/overlay.css?token=${token}"><body class="m-0 bg-transparent font-sans text-[28px] text-white [text-shadow:0_2px_6px_#000]"><img hidden alt="" class="h-[360px] max-w-[480px] origin-bottom object-contain motion-reduce:animate-none"><div hidden id="stage" class="h-[480px] w-[720px]"></div><p class="max-w-[800px] whitespace-pre-wrap"></p><script type="module" src="/overlay.js?token=${token}"></script></body></html>`)
+    res.setHeader('content-security-policy', "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' blob: data:; worker-src blob:")
+    res.end(`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="/overlay.css?token=${token}"><body class="m-0 bg-transparent font-sans text-[28px] text-white [text-shadow:0_2px_6px_#000]"><img hidden alt="" class="h-[360px] max-w-[480px] origin-bottom object-contain motion-reduce:animate-none"><div hidden id="stage" class="h-[480px] w-[720px]"></div><p class="max-w-[800px] whitespace-pre-wrap"></p><script type="module" src="/overlay.js?token=${token}"></script></body></html>`)
   })
   await new Promise<void>((done, fail) => { server.once('error', fail); server.listen(0, '127.0.0.1', () => { server.removeListener('error', fail); done() }) })
   const address = server.address()
@@ -81,6 +101,8 @@ export async function apply(ctx: Host & Context): Promise<void> {
   ctx.effect(() => () => new Promise<void>(resolve => { server.closeAllConnections(); server.close(() => resolve()) }), '直播：关闭叠加层')
   const send = (res: ServerResponse, code: number, value: object) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(value)) }
   ctx.effect(() => ctx.studioProjects.register({ id: 'live', ...STUDIO_PROJECT, root: fileURLToPath(new URL('../static/', import.meta.url)), async handle(req, res, path) {
+    if (path.startsWith('avatar-files/')) { if (req.method === 'GET') serveModel(res, path.slice('avatar-files/'.length)); else send(res, 405, { error: '仅支持读取模型资源' }); return true }
+    if (path === 'sample') { if (req.method === 'GET' && sample) { res.writeHead(200, { 'content-type': 'application/zip', 'cache-control': 'no-store' }); res.end(sample) } else send(res, 404, { error: '此包没有包含官方样例' }); return true }
     if (path === 'avatar') {
       if (req.method !== 'POST' || req.headers['sec-fetch-site'] === 'cross-site' || req.headers['content-type'] !== 'application/octet-stream') { send(res, 403, { error: '形象请求来源无效' }); return true }
       try {
@@ -91,10 +113,14 @@ export async function apply(ctx: Host & Context): Promise<void> {
         const png = bytes.subarray(0, 8).equals(Buffer.from([137,80,78,71,13,10,26,10]))
         const jpeg = bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255
         const webp = bytes.toString('ascii', 0, 4) === 'RIFF' && bytes.toString('ascii', 8, 12) === 'WEBP'
-        if (!vrm && !png && !jpeg && !webp) throw new Error('请导入有效的 VRM、PNG、WebP 或 JPG 文件')
-        asset = bytes; assetType = vrm ? 'application/octet-stream' : png ? 'image/png' : jpeg ? 'image/jpeg' : 'image/webp'
-        overlay = { ...overlay, avatarKind: vrm ? 'vrm' : 'image', avatarVersion: overlay.avatarVersion + 1 }
-        send(res, 200, { kind: overlay.avatarKind, version: overlay.avatarVersion })
+        const zip = bytes[0] === 80 && bytes[1] === 75
+        if (!vrm && !png && !jpeg && !webp && !zip) throw new Error('请导入有效的 Live2D ZIP、VRM 或图片文件')
+        if (zip && !core) throw new Error('Live2D 运行库未安装，请使用包含官方运行库的本地验证包')
+        const model = zip ? readLive2dPackage(bytes) : undefined
+        live2d = model
+        asset = bytes; assetType = zip ? 'application/zip' : vrm ? 'application/octet-stream' : png ? 'image/png' : jpeg ? 'image/jpeg' : 'image/webp'
+        overlay = { ...overlay, avatarKind: zip ? 'live2d' : vrm ? 'vrm' : 'image', expression: '', avatarVersion: overlay.avatarVersion + 1 }
+        send(res, 200, { kind: overlay.avatarKind, version: overlay.avatarVersion, modelUrl: model ? '/studio-projects/live/avatar-files/' + modelPath() : '', expressions: model?.expressions ?? [], name: model?.name ?? '' })
       } catch (error) { send(res, 400, { error: error instanceof Error ? error.message : '形象导入失败' }) }
       return true
     }
@@ -105,7 +131,9 @@ export async function apply(ctx: Host & Context): Promise<void> {
       const chunks: Buffer[] = []; let size = 0
       for await (const chunk of req) { size += chunk.length; if (size > 8_000_000) throw new Error('请求过大'); chunks.push(chunk) }
       const input = record(JSON.parse(Buffer.concat(chunks).toString('utf8')))
-      if (input.action === 'run-start') {
+      if (input.action === 'avatar-options') {
+        send(res, 200, { live2dAvailable: !!core, sampleAvailable: !!core && !!sample })
+      } else if (input.action === 'run-start') {
         await serial(async () => { await stopRuntime(); runController = new AbortController(); runId = randomUUID(); leaseAt = Date.now() })
         send(res, 200, { runId, overlayUrl })
       } else if (input.action === 'run-stop') {
@@ -138,7 +166,9 @@ export async function apply(ctx: Host & Context): Promise<void> {
       } else if (input.action === 'frame') {
         requireRun(input.runId)
         if (typeof input.text !== 'string' || input.text.length > 1000 || typeof input.speaking !== 'boolean' || typeof input.mouth !== 'number' || !Number.isFinite(input.mouth) || input.mouth < 0 || input.mouth > 1 || !['neutral','happy','relaxed','surprised','sad'].includes(String(input.emotion))) throw new Error('形象状态无效')
-        overlay = { ...overlay, text: input.text, speaking: input.speaking, mouth: input.mouth, emotion: String(input.emotion) }; send(res, 200, { overlayUrl })
+        const expression = input.expression ?? ''
+        if (typeof expression !== 'string' || expression.length > 80 || expression && !live2d?.expressions.includes(expression)) throw new Error('请选择模型已有的表情')
+        overlay = { ...overlay, text: input.text, speaking: input.speaking, mouth: input.mouth, emotion: String(input.emotion), expression }; send(res, 200, { overlayUrl })
       } else if (input.action === 'minecraft-start') {
         requireRun(input.runId)
         if (typeof input.port !== 'number' || !Number.isInteger(input.port) || input.port < 1024 || input.port > 65535 || typeof input.username !== 'string' || !/^[a-zA-Z0-9_]{3,16}$/u.test(input.username)) throw new Error('请填写本机 Minecraft 测试服端口和 3 至 16 位英文玩家名')

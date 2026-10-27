@@ -4,7 +4,7 @@
 
 ## 开始使用
 
-在 dsh 左侧“工作室”打开“直播工作室”。导入 VRM 或 PNG／WebP／JPG 形象，选择语音引擎，点击“开始本地预演”，再添加一条测试弹幕。没有游戏时可使用农场练习场；练习场不是星露谷。模型未配置会显示真实错误。
+在 dsh 左侧“工作室”打开“直播工作室”。导入 Live2D ZIP、VRM 或 PNG／WebP／JPG 形象，选择语音引擎，点击“开始本地预演”，再添加一条测试弹幕。没有游戏时可使用农场练习场；练习场不是星露谷。模型未配置会显示真实错误。
 
 模型沿用 dsh 默认配置，不读取其他应用的 API Key。弹幕和游戏分别使用“直播工作室 · 弹幕”和“直播工作室 · 游戏”标准会话，输入、状态和输出进入会话记录，可在主窗口和悬浮球查看。两个会话分别推理，模型只能输出文字及白名单动作，不能执行系统工具。修改默认模型作用于之后创建的会话，已经建立的会话仍由 dsh 管理其模型。
 
@@ -20,6 +20,10 @@
 
 OBS 安装后启用 WebSocket v5，填写本机端口和密码，检查状态并为已有场景添加形象浏览器源。形象源为带随机令牌的只读回环地址，卸载后失效。音频捕获 dsh 应用，形象源不会重复播放声音；游戏画面使用游戏捕获。插件不修改推流密钥，不自动开播。其他平台可连接已授权本机 WebSocket 弹幕桥，消息格式为 `{"id":"唯一标识","name":"观众名称","text":"弹幕内容"}`。
 
+## Live2D
+
+0.3.0 已接入 Live2D 本地验证：官方 Haru 样例、模型 ZIP 导入、本机保存、表情切换及预览／OBS 口型同步。专属 DeepSeek 模型可从同一入口替换；角色绘制与绑定需另行准备。操作、兼容范围和发行许可说明见 [Live2D 本地验证](LIVE2D.md)。
+
 ## 游戏
 
 星露谷需要自行安装正版游戏、SMAPI 4 和 .NET 6 SDK，适配器说明见 [Windows 模组](studios/live/adapters/stardew/README.md)。仅支持单人、游戏前台中的有界移动与工具操作，F8 紧急停止；不支持自动装备切换、钓鱼和战斗策略。
@@ -30,8 +34,8 @@ Minecraft 选项使用独立 Worker 内的 Mineflayer，连接自己管理的 `1
 
 ## 独立构建和安装
 
-需要 Node.js 22 及 npm。运行 `npm ci --ignore-scripts`、`npm run build`、`npm test`、`npm run check`、`npm run pack`，生成 `artifacts/dsh-studio-live-0.2.0.tgz` 和 SHA-256 清单。`npx tsc --noEmit` 额外检查源码类型，当前需要同级宿主源码提供 dsh 的类型声明。
+需要 Node.js 22 及 npm。运行 `npm ci --ignore-scripts`、`npm run build`、`npm test`、`npm run check`、`npm run pack`，生成 `artifacts/dsh-studio-live-0.3.0.tgz` 和 SHA-256 清单。`npx tsc --noEmit` 额外检查源码类型，当前需要同级宿主源码提供 dsh 的类型声明。
 
 先安装 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，再从 Windows dsh 插件管理器安装 tgz。Desktop profile 由应用自己的插件管理器维护。安装器会安装 Mineflayer 运行依赖；云端语音、VRM 和 UI 依赖随构建打包。兼容目标为定制 dsh `0.2.1-rc.2`，共享 SDK 固定快照见 SDK-SNAPSHOT.json。
 
-本仓库采用 MIT 许可证。感谢 [three-vrm](https://github.com/pixiv/three-vrm)、[Three.js](https://github.com/mrdoob/three.js)、[MsEdgeTTS](https://github.com/Migushthe2nd/MsEdgeTTS)、[ws](https://github.com/websockets/ws) 和 [Mineflayer](https://github.com/PrismarineJS/mineflayer)。模型资源由用户自行导入并确认授权，未随包分发；OBS、SMAPI 和游戏软件也未随包分发。
+本仓库自有代码采用 MIT 许可证；Live2D 官方运行库和模型素材遵循各自条款。感谢 [three-vrm](https://github.com/pixiv/three-vrm)、[Three.js](https://github.com/mrdoob/three.js)、[MsEdgeTTS](https://github.com/Migushthe2nd/MsEdgeTTS)、[ws](https://github.com/websockets/ws) 和 [Mineflayer](https://github.com/PrismarineJS/mineflayer)。普通构建不附带模型，用户自有模型需自行确认授权；本地验证构建包含官方 Haru 与通知，见 Live2D 说明。OBS、SMAPI 和游戏软件未随包分发。

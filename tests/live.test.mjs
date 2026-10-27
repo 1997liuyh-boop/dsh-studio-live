@@ -41,7 +41,7 @@ test('真实插件注册、令牌叠加层、输入校验和卸载关闭服务�
     assert.equal(state.status, 200); overlayUrl = state.value.overlayUrl
     const parsed = new URL(overlayUrl)
     assert.equal((await fetch(parsed.origin + '/state')).status, 403)
-    assert.deepEqual(await (await fetch(parsed.origin + '/state' + parsed.search)).json(), { text: '真实字幕', speaking: false, avatar: '', mouth: 0, emotion: 'neutral', avatarKind: '', avatarVersion: 0 })
+    assert.deepEqual(await (await fetch(parsed.origin + '/state' + parsed.search)).json(), { text: '真实字幕', speaking: false, avatar: '', mouth: 0, emotion: 'neutral', expression: '', avatarKind: '', avatarVersion: 0, modelUrl: '' })
     assert.equal((await post({ action: 'overlay', text: '<script>x</script>', speaking: false, avatar: 'file:///secret.png' })).status, 400)
     assert.equal((await post({ action: 'game-action', port: 33107, token: 'a'.repeat(64), command: { action: 'arbitrary', frames: 1 } })).status, 400)
     const first = await post({ action: 'run-start' })

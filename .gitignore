@@ -19,6 +19,7 @@ work-local-dependencies/
 **/06_private/
 studio-data/
 .test-build/
+.local-live2d/
 coverage/
 .DS_Store
 **/bin/

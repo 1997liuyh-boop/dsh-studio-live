@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { LiveModel } from './model'
 import { LiveAudio, type AudioFrame } from './audio'
 import { SpeechQueue, SentenceBuffer, pause } from './pipeline'
-import { VrmStage, type Emotion } from './stage'
+import { type Emotion } from './stage'
+import { createAvatarStage, type AvatarStage } from './avatar-stage'
 import { avatarAsset } from './assets'
 import { BridgePanel } from './bridge'
 import { gameActions, minecraftActions, newFarm, parseDecision, stepFarm, type FarmAction } from './game'
@@ -26,7 +27,9 @@ function App() {
   const [running, setRunning] = useState(false), [status, setStatus] = useState('本地预演 · 尚未开播')
   const [error, setError] = useState(''), [warning, setWarning] = useState(''), [reply, setReply] = useState('')
   const [queueSize, setQueueSize] = useState(0), [logs, setLogs] = useState<{ id: string; text: string }[]>([])
-  const [asset, setAsset] = useState<{ blob: Blob; kind: string; url: string }>()
+  const [asset, setAsset] = useState<{ blob: Blob; kind: string; url: string; modelUrl: string; name: string; expressions: string[] }>()
+  const [avatarBusy, setAvatarBusy] = useState(false), [avatarReady, setAvatarReady] = useState(false), [sampleAvailable, setSampleAvailable] = useState(false)
+  const [expression, setExpression] = useState('')
   const [speaking, setSpeaking] = useState(false), [voice, setVoice] = useState('cloud'), [voiceName, setVoiceName] = useState('zh-CN-XiaoyiNeural')
   const [emotion, setEmotion] = useState<Emotion>('neutral'), [name, setName] = useState('观众'), [comment, setComment] = useState('')
   const [roomId, setRoomId] = useState(''), [cookie, setCookie] = useState(''), [biliState, setBiliState] = useState('未连接 B站')
@@ -35,11 +38,11 @@ function App() {
   const [gamePort, setGamePort] = useState(33107), [gameToken, setGameToken] = useState(''), [gameState, setGameState] = useState<Record<string, unknown>>()
   const [minecraftPort, setMinecraftPort] = useState(25565), [minecraftName, setMinecraftName] = useState('DshLiveBot')
   const [goal, setGoal] = useState('种植、浇水并收获作物，轻松地和观众聊天。'), [latency, setLatency] = useState<number>()
-  const alive = useRef(true), runtime = useRef<Runtime | null>(null), preview = useRef<HTMLDivElement>(null), stage = useRef<VrmStage | undefined>(undefined)
+  const alive = useRef(true), runtime = useRef<Runtime | null>(null), preview = useRef<HTMLDivElement>(null), stage = useRef<AvatarStage | undefined>(undefined)
   const inbox = useRef<Comment[]>([]), seen = useRef(new Set<string>()), farmState = useRef(farm), actualState = useRef(gameState)
   const frame = useRef<AudioFrame>({ text: '', speaking: false, mouth: 0 })
-  const settings = useRef({ game, playing, voice, voiceName, emotion, goal, gamePort, gameToken, minecraftPort, minecraftName })
-  settings.current = { game, playing, voice, voiceName, emotion, goal, gamePort, gameToken, minecraftPort, minecraftName }
+  const settings = useRef({ game, playing, voice, voiceName, emotion, expression, goal, gamePort, gameToken, minecraftPort, minecraftName })
+  settings.current = { game, playing, voice, voiceName, emotion, expression, goal, gamePort, gameToken, minecraftPort, minecraftName }
   const models = useRef({ reply: new LiveModel(text => { if (alive.current) setStatus('正在回复弹幕 · ' + text.slice(0, 40)) }, '直播工作室 · 弹幕'), game: new LiveModel(() => {}, '直播工作室 · 游戏') })
   const audio = useRef<LiveAudio | undefined>(undefined)
   if (!audio.current) audio.current = new LiveAudio(value => {
@@ -62,11 +65,14 @@ function App() {
   }
   const importAvatar = async (blob: Blob, save = true) => {
     if (blob.size > 32_000_000) throw new Error('形象文件最多 32 MB')
-    const response = await fetch('/studio-projects/live/avatar', { method: 'POST', headers: { 'content-type': 'application/octet-stream' }, body: blob })
-    const result = await response.json()
-    if (!response.ok) throw new Error(result.error || '形象导入失败')
-    if (save) await avatarAsset(blob)
-    if (alive.current) setAsset(previous => { if (previous) URL.revokeObjectURL(previous.url); return { blob, kind: result.kind, url: URL.createObjectURL(blob) } })
+    setAvatarBusy(true)
+    try {
+      const response = await fetch('/studio-projects/live/avatar', { method: 'POST', headers: { 'content-type': 'application/octet-stream' }, body: blob })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error || '形象导入失败')
+      if (save) await avatarAsset(blob)
+      if (alive.current) { setAvatarReady(false); setExpression(''); setAsset(previous => { if (previous) URL.revokeObjectURL(previous.url); return { blob, kind: result.kind, url: URL.createObjectURL(blob), modelUrl: result.modelUrl ?? '', name: result.name ?? '', expressions: result.expressions ?? [] } }) }
+    } finally { if (alive.current) setAvatarBusy(false) }
   }
   const say = (run: Runtime, text: string, at: number) => run.voice.add(text.slice(0, 400), at)
   const replyLoop = async (run: Runtime) => {
@@ -116,7 +122,7 @@ function App() {
     signal.addEventListener('abort', cancelled, { once: true })
     const monitor = async () => {
       while (!signal.aborted) {
-        await api('frame', { runId: run.id, ...frame.current, emotion: settings.current.emotion }, signal)
+        await api('frame', { runId: run.id, ...frame.current, emotion: settings.current.emotion, expression: settings.current.expression }, signal)
         if (run.bili) {
           const result = await api('bili-poll', { runId: run.id, after: run.cursor }, signal); setBiliState(String(result.state))
           for (const item of result.comments as (Comment & { sequence: number })[]) {
@@ -156,6 +162,7 @@ function App() {
   useEffect(() => {
     alive.current = true
     void (async () => {
+      const options = await api('avatar-options'); if (alive.current) setSampleAvailable(options.sampleAvailable === true)
       const saved = await avatarAsset()
       if (saved) await importAvatar(saved, false)
       else { const legacy = localStorage.getItem('dsh.studio.live.avatar.v1'); if (legacy?.startsWith('data:image/')) await importAvatar(await (await fetch(legacy)).blob()) }
@@ -168,25 +175,30 @@ function App() {
     return () => { alive.current = false; closing(); window.removeEventListener('pagehide', closing); void models.current.reply.stop().catch(console.warn); void models.current.game.stop().catch(console.warn); void audio.current!.dispose().catch(console.warn) }
   }, [])
   useEffect(() => {
-    if (!asset || asset.kind !== 'vrm' || !preview.current) return
-    let disposed = false
-    const view = new VrmStage(preview.current); stage.current = view
-    void asset.blob.arrayBuffer().then(bytes => { if (!disposed) return view.load(bytes) }).catch(report)
-    return () => { disposed = true; view.dispose(); if (stage.current === view) stage.current = undefined }
+    setAvatarReady(false)
+    if (!asset || !['vrm', 'live2d'].includes(asset.kind) || !preview.current) return
+    const controller = new AbortController(); let view: AvatarStage | undefined
+    void createAvatarStage(preview.current, asset.kind, asset.blob, asset.modelUrl, controller.signal, report).then(value => {
+      if (controller.signal.aborted) { value.dispose(); return }
+      view = value; stage.current = value; value.mouth = frame.current.mouth; value.emotion = settings.current.emotion; value.expression = settings.current.expression; setAvatarReady(true)
+    }).catch(cause => { if (!controller.signal.aborted) report(cause) })
+    return () => { controller.abort(); view?.dispose(); if (stage.current === view) stage.current = undefined }
   }, [asset])
   useEffect(() => { if (stage.current) stage.current.emotion = emotion }, [emotion, asset])
+  useEffect(() => { if (stage.current) stage.current.expression = expression }, [expression])
   return <main className="mx-auto min-h-screen max-w-7xl space-y-5 bg-white p-5 text-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:scheme-dark">
-    <header className="flex flex-wrap items-center justify-between gap-3"><div><h1 className="text-2xl font-medium">直播工作室</h1><p className="mt-1 text-sm text-slate-600 dark:text-slate-400">dsh 模型 · B站弹幕 · VRM 形象 · 云端语音</p></div><span className="rounded-full bg-amber-100 px-3 py-1 text-xs text-amber-900">本地预演，推流由 OBS 控制</span></header>
+    <header className="flex flex-wrap items-center justify-between gap-3"><div><h1 className="text-2xl font-medium">直播工作室</h1><p className="mt-1 text-sm text-slate-600 dark:text-slate-400">dsh 模型 · B站弹幕 · Live2D／VRM 形象 · 云端语音</p></div><span className="rounded-full bg-amber-100 px-3 py-1 text-xs text-amber-900">本地预演，推流由 OBS 控制</span></header>
     {error && <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">{error}</p>}
     {warning && <p role="status" className="rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-200">{warning}</p>}
     <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
       <section className="space-y-4"><div className="relative flex h-96 items-end justify-center overflow-hidden rounded-2xl bg-slate-900 p-4" aria-label="直播形象预览">
-        <div ref={preview} hidden={asset?.kind !== 'vrm'} className="h-full w-full" />
+        <div ref={preview} hidden={!asset || !['vrm', 'live2d'].includes(asset.kind)} data-avatar-ready={avatarReady} className="h-full w-full" />
         {asset?.kind === 'image' && <img src={asset.url} alt="直播形象" className={'max-h-80 max-w-full object-contain motion-reduce:animate-none ' + (speaking ? 'animate-pulse' : '')} />}
-        {!asset && <p className="self-center text-center text-sm text-slate-300">导入 VRM 形象或透明背景图片<br />形象只保存在本机</p>}
+        {!asset && <p className="self-center text-center text-sm text-slate-300">导入 Live2D ZIP、VRM 或透明背景图片<br />形象只保存在本机</p>}
+        {asset && ['vrm', 'live2d'].includes(asset.kind) && !avatarReady && !error && <span aria-label="正在加载形象" className="absolute top-1/2 size-6 animate-spin rounded-full border-2 border-white/30 border-t-white motion-reduce:animate-none" />}
         {reply && <p className="absolute inset-x-3 bottom-3 rounded-xl bg-black/70 p-3 text-sm text-white">{reply}</p>}
       </div>
-      <div className="flex flex-wrap items-center gap-2"><button className={button + ' bg-blue-600 text-white hover:bg-blue-700'} disabled={running} onClick={() => guarded(start)}>开始本地预演</button><button className={button} disabled={!running} onClick={() => guarded(stop)}>停止</button><label className="flex gap-2 text-sm"><input type="checkbox" checked={playing} onChange={e => setPlaying(e.target.checked)} />AI 玩游戏</label></div>
+      <div className="flex flex-wrap items-center gap-2"><button className={button + ' bg-blue-600 text-white hover:bg-blue-700'} disabled={running || avatarBusy || !!asset && ['vrm', 'live2d'].includes(asset.kind) && !avatarReady} onClick={() => guarded(start)}>开始本地预演</button><button className={button} disabled={!running} onClick={() => guarded(stop)}>停止</button><label className="flex gap-2 text-sm"><input type="checkbox" checked={playing} onChange={e => setPlaying(e.target.checked)} />AI 玩游戏</label></div>
       <p role="status" className="text-sm text-slate-600 dark:text-slate-400">{status} · 待回复 {queueSize} 条{latency !== undefined && ' · 最近一次消息至开口 ' + (latency / 1000).toFixed(2) + ' 秒'}</p>
       <section className={panel}><h2 className="font-medium">{game === 'practice' ? '内置农场练习场（非星露谷）' : game === 'minecraft' ? 'Minecraft Java · 本机测试服' : '星露谷物语 · SMAPI'}</h2>
         {game === 'practice' ? <><div className="grid max-w-md grid-cols-6 gap-1">{farm.plots.map((plot, index) => <div key={index} className={'flex aspect-square items-center justify-center rounded-md text-xl ' + (farm.y * 6 + farm.x === index ? 'bg-blue-200 ring-2 ring-blue-500' : 'bg-amber-100 dark:bg-amber-950')}>{farm.y * 6 + farm.x === index ? '🧑‍🌾' : ['', '🌱', '💧', '🌾'][plot]}</div>)}</div><p className="text-xs">种子 {farm.seeds} · 已收获 {farm.harvest}</p></> : <pre className="max-h-56 overflow-auto whitespace-pre-wrap text-xs">{gameState ? JSON.stringify(gameState, null, 2) : '尚未连接真实游戏。请安装游戏、SMAPI 和随包模组。'}</pre>}
@@ -194,10 +206,12 @@ function App() {
       <form className={panel} onSubmit={event => { event.preventDefault(); try { enqueue({ id: crypto.randomUUID(), name, text: comment }); setComment('') } catch (cause) { report(cause) } }}><h2 className="font-medium">弹幕预演</h2><div className="flex flex-wrap gap-2"><input aria-label="观众名称" className={field + ' max-w-24'} value={name} maxLength={80} onChange={e => setName(e.target.value)} /><input aria-label="弹幕内容" className={field + ' min-w-40 flex-1'} value={comment} maxLength={500} onChange={e => setComment(e.target.value)} required /><button className={button}>加入队列</button></div><p className="text-xs text-slate-600 dark:text-slate-400">通过语音和字幕回复，不以您的账号发送平台弹幕</p></form>
       <details><summary className="cursor-pointer text-sm">活动记录</summary><ol className="mt-2 max-h-64 space-y-1 overflow-y-auto text-xs">{logs.map(item => <li key={item.id}>{item.text}</li>)}</ol></details></section>
       <aside className={panel}><h2 className="font-medium">直播设置</h2>
-        <label className="block space-y-2 text-sm"><span>形象 VRM／PNG／WebP／JPG</span><input className={field} type="file" disabled={running} accept=".vrm,image/png,image/webp,image/jpeg" onChange={e => { const file = e.target.files?.[0]; if (file) guarded(() => importAvatar(file)) }} /></label>
+        <label className="block space-y-2 text-sm"><span>形象 Live2D ZIP／VRM／图片</span><input className={field} type="file" disabled={running || avatarBusy} accept=".zip,.vrm,image/png,image/webp,image/jpeg" onChange={e => { const file = e.target.files?.[0]; if (file) guarded(() => importAvatar(file)) }} /></label>
+        {sampleAvailable && <button className={button} disabled={running || avatarBusy} onClick={() => guarded(async () => { const response = await fetch('/studio-projects/live/sample'); if (!response.ok) throw new Error('官方样例暂不可用'); await importAvatar(await response.blob()) })}>载入 Live2D 官方样例</button>}
+        {asset?.kind === 'live2d' && <div className="space-y-2 text-xs text-slate-600 dark:text-slate-400"><p>Live2D · {asset.name} · {avatarReady ? '已加载' : '加载中'}</p><p>ZIP 需要包含 model3.json、moc3 和引用的 PNG 贴图；仅支持模型已有的动作与表情。</p>{sampleAvailable && <details><summary className="cursor-pointer">官方样例版权说明</summary><p className="mt-2">Haru 样例版权归 Live2D Inc. 所有，仅用于本地开发验证。This content uses sample data owned and copyrighted by Live2D Inc.</p></details>}</div>}
         <label className="block space-y-2 text-sm"><span>语音引擎</span><select className={field} value={voice} onChange={e => setVoice(e.target.value)}><option value="cloud">云端语音（失败时使用本机语音）</option><option value="system">本机系统语音</option><option value="off">仅字幕</option></select></label>
         {voice === 'cloud' && <label className="block space-y-2 text-sm"><span>音色</span><select className={field} value={voiceName} onChange={e => setVoiceName(e.target.value)}><option value="zh-CN-XiaoyiNeural">晓伊</option><option value="zh-CN-XiaoxiaoNeural">晓晓</option><option value="zh-CN-YunxiNeural">云希</option></select></label>}
-        <label className="block space-y-2 text-sm"><span>VRM 表情（模型需包含对应表情）</span><select className={field} value={emotion} onChange={e => setEmotion(e.target.value as Emotion)}><option value="neutral">自然</option><option value="happy">开心</option><option value="relaxed">放松</option><option value="surprised">惊讶</option><option value="sad">难过</option></select></label>
+        {asset?.kind === 'live2d' ? <label className="block space-y-2 text-sm"><span>Live2D 表情</span><select aria-label="Live2D 表情" className={field} disabled={!asset.expressions.length || !avatarReady} value={expression} onChange={e => setExpression(e.target.value)}><option value="">自然</option>{asset.expressions.map(name => <option key={name} value={name}>{name}</option>)}</select>{!asset.expressions.length && <span className="text-xs text-slate-600 dark:text-slate-400">此模型没有导出独立表情</span>}</label> : <label className="block space-y-2 text-sm"><span>VRM 表情（模型需包含对应表情）</span><select className={field} value={emotion} onChange={e => setEmotion(e.target.value as Emotion)}><option value="neutral">自然</option><option value="happy">开心</option><option value="relaxed">放松</option><option value="surprised">惊讶</option><option value="sad">难过</option></select></label>}
         <label className="block space-y-2 text-sm"><span>游戏</span><select className={field} disabled={running} value={game} onChange={e => setGame(e.target.value)}><option value="practice">农场练习场（无需安装）</option><option value="stardew">星露谷物语（需 SMAPI 模组）</option><option value="minecraft">Minecraft Java（本机测试服）</option></select></label>
         {game === 'minecraft' && <div className="space-y-2"><label className="block text-sm">本机测试服端口<input className={field} type="number" disabled={running} value={minecraftPort} onChange={e => setMinecraftPort(Number(e.target.value))} /></label><label className="block text-sm">机器人玩家名<input className={field} disabled={running} value={minecraftName} onChange={e => setMinecraftName(e.target.value)} /></label><p className="text-xs text-slate-600 dark:text-slate-400">连接自己管理的本机 Java 离线测试服。支持短步移动、转向和近距离挖木头／石头。此模式不登录微软账号，不附带游戏或服务器。</p></div>}
         <label className="block space-y-2 text-sm"><span>主播目标</span><textarea className={field} value={goal} maxLength={1000} onChange={e => setGoal(e.target.value)} /></label>
