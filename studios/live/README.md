@@ -8,7 +8,7 @@
 
 模型沿用 dsh 默认配置，不读取其他应用的 API Key。弹幕和游戏分别使用“直播工作室 · 弹幕”和“直播工作室 · 游戏”标准会话，输入、状态和输出进入会话记录，可在主窗口和悬浮球查看。两个会话分别推理，模型只能输出文字及白名单动作，不能执行系统工具。修改默认模型作用于之后创建的会话，已经建立的会话仍由 dsh 管理其模型。
 
-弹幕队列最多 20 条，按 id 去重，90 秒未处理的弹幕明确记为过期；未完成回复保留。语音队列最多 8 句，完整句到达后立即开始合成，按入队顺序播完。停止、页面关闭或插件卸载会取消所属推理、语音和平台连接；页面失联超过 15 秒由宿主停止运行。语音已经播出的部分无法撤回，失败后重试可能重复该部分。
+弹幕队列最多 20 条，按 id 去重，90 秒未处理的弹幕明确记为过期；未完成回复保留。语音队列最多 8 句，完整句到达后立即开始合成，按入队顺序播完。本轮全部语音播放完成后，状态恢复为等待新弹幕或等待回复下一条弹幕；停止或失败不会被迟到的语音完成回调改为待机。停止、页面关闭或插件卸载会取消所属推理、语音和平台连接；页面失联超过 15 秒由宿主停止运行。语音已经播出的部分无法撤回，失败后重试可能重复该部分。
 
 ## B站、语音与形象
 
@@ -36,6 +36,6 @@ Minecraft 选项使用独立 Worker 内的 Mineflayer，连接自己管理的 `1
 
 需要 Node.js 22 及 npm。运行 `npm ci --ignore-scripts`、`npm run build`、`npm test`、`npm run check`、`npm run pack`，生成 `artifacts/dsh-studio-live-0.3.0.tgz` 和 SHA-256 清单。`npx tsc --noEmit` 额外检查源码类型，当前需要同级宿主源码提供 dsh 的类型声明。
 
-先安装 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，再从 Windows dsh 插件管理器安装 tgz。Desktop profile 由应用自己的插件管理器维护。安装器会安装 Mineflayer 运行依赖；云端语音、VRM 和 UI 依赖随构建打包。兼容目标为定制 dsh `0.2.1-rc.2`，共享 SDK 固定快照见 SDK-SNAPSHOT.json。
+先安装 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，再从 Windows dsh 插件管理器安装 tgz。Desktop profile 由应用自己的插件管理器维护。安装器会安装 Mineflayer 运行依赖；云端语音、VRM 和 UI 依赖随构建打包。当前交付兼容定制 dsh `0.2.2-rc.1`，保留 `0.2.1-rc.2` 支持；包的 `engines.dsh` 限定这两个宿主版本，其他版本需要另行验证。共享 SDK 固定快照见 SDK-SNAPSHOT.json。
 
 本仓库自有代码采用 MIT 许可证；Live2D 官方运行库和模型素材遵循各自条款。感谢 [three-vrm](https://github.com/pixiv/three-vrm)、[Three.js](https://github.com/mrdoob/three.js)、[MsEdgeTTS](https://github.com/Migushthe2nd/MsEdgeTTS)、[ws](https://github.com/websockets/ws) 和 [Mineflayer](https://github.com/PrismarineJS/mineflayer)。普通构建不附带模型，用户自有模型需自行确认授权；本地验证构建包含官方 Haru 与通知，见 Live2D 说明。OBS、SMAPI 和游戏软件未随包分发。

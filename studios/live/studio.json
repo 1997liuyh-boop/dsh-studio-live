@@ -18,7 +18,7 @@
     "minecraft-adapter"
   ],
   "compatibility": {
-    "host": "0.2.1-rc.2",
+    "host": "0.2.2-rc.1",
     "runtime": "^0.5.0",
     "worktable": "^0.6.0"
   }

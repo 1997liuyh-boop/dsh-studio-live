@@ -12,6 +12,7 @@ export class Live2dStage {
   private observer: ResizeObserver
   private disposed = false
   private selectedExpression = ''
+  private expressionRequest = 0
   mouth = 0
   emotion = 'neutral'
   constructor(private container: HTMLElement, private report: (error: unknown) => void) {
@@ -41,7 +42,11 @@ export class Live2dStage {
     const internal = model.internalModel, ids = [...(internal.settings.getLipSyncParameters() ?? [])]
     if (!ids.length) ids.push('ParamMouthOpenY')
     internal.on('beforeModelUpdate', () => {
-      for (const id of ids) internal.coreModel.setParameterValueById(id, Math.max(0, Math.min(1, this.mouth)))
+      const speechMouth = Math.max(0, Math.min(1, this.mouth))
+      for (const id of ids) {
+        const expressionMouth = internal.coreModel.getParameterValueById(id)
+        internal.coreModel.setParameterValueById(id, Math.max(expressionMouth, speechMouth))
+      }
     })
     this.app.stage.addChild(model); this.resize()
   }
@@ -49,8 +54,22 @@ export class Live2dStage {
   set expression(value: string) {
     if (value === this.selectedExpression || !this.model) return
     this.selectedExpression = value
-    if (!value) this.model.internalModel.motionManager.expressionManager?.resetExpression()
-    else void this.model.expression(value).then(ok => { if (!ok && !this.disposed) this.report(new Error('模型表情加载失败，请重新导入完整模型包')) }).catch(this.report)
+    const request = ++this.expressionRequest
+    if (!value) {
+      const manager = this.model.internalModel.motionManager.expressionManager
+      if (manager) {
+        // 自然选择清除依赖缓存，并取消仍在加载的表情。
+        manager.reserveExpressionIndex = -1
+        manager.currentExpression = manager.defaultExpression
+        manager.resetExpression()
+      }
+      return
+    }
+    void this.model.expression(value).then(ok => {
+      if (!ok && !this.disposed && request === this.expressionRequest) this.report(new Error('模型表情加载失败，请重新导入完整模型包'))
+    }).catch(error => {
+      if (!this.disposed && request === this.expressionRequest) this.report(error)
+    })
   }
   dispose(): void {
     if (this.disposed) return

@@ -5,7 +5,8 @@
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=22"
+    "node": ">=22",
+    "dsh": "0.2.1-rc.2 || 0.2.2-rc.1"
   },
   "main": "lib/index.js",
   "exports": {
@@ -41,9 +42,10 @@
       ]
     },
     "compatibility": {
-      "dsh": "0.2.1-rc.2",
+      "dsh": "0.2.2-rc.1",
       "dshReleases": {
-        "0.2.1-rc.2": "experimental"
+        "0.2.1-rc.2": "experimental",
+        "0.2.2-rc.1": "experimental"
       }
     }
   },
@@ -76,5 +78,9 @@
   },
   "dependencies": {
     "mineflayer": "4.39.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1997liuyh-boop/dsh-studio-live.git"
   }
 }

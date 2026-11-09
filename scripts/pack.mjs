@@ -17,7 +17,8 @@ for (const item of catalog.packages) {
   const result=spawnSync(process.execPath,[npmCli,'pack','--json','--pack-destination',output],{cwd:join(root,item.path),encoding:'utf8'})
   if (result.status!==0) throw new Error('打包失败：'+item.id+' '+result.stderr)
   const [pack]=JSON.parse(result.stdout)
-  artifacts.push({id:item.id,name:pack.name,version:pack.version,file:pack.filename,sha256:createHash('sha256').update(await readFile(join(output,pack.filename))).digest('hex')})
+  const compatibility=JSON.parse(await readFile(join(root,item.path,'package.json'),'utf8')).dsh?.compatibility ?? {}
+  artifacts.push({id:item.id,name:pack.name,version:pack.version,file:pack.filename,dsh:compatibility.dsh ?? '',dshVersions:Object.keys(compatibility.dshReleases ?? {}),sha256:createHash('sha256').update(await readFile(join(output,pack.filename))).digest('hex')})
 }
 await writeFile(join(output,'manifest.json'),JSON.stringify({schemaVersion:1,localDevelopment,artifacts},null,2)+'\n')
 console.log('已生成 '+artifacts.length+' 个安装包和 SHA256 清单')
