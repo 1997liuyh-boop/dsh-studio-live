@@ -2,7 +2,9 @@
 
 [简体中文](README.zh.md)
 
-**Repository name:** $n\n\n**Repository description:** AI game-streaming studio with DSH sessions, chat queues, voice avatars, OBS overlays, Live2D/VRM import, and optional game adapters.
+**Repository name:** `dsh-studio-live`
+
+**Repository description:** AI game-streaming studio with DSH sessions, chat queues, voice avatars, OBS overlays, Live2D/VRM import, and optional game adapters.
 
 `dsh-studio-live` is an independently installed DSH studio. It provides the live page, avatar renderer, chat and voice queues, OBS bridge, and optional game adapters. The shared worktable provides only the studio container and session controls; it does not install this studio or any game.
 
