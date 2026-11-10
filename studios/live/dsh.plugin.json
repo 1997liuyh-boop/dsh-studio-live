@@ -1,6 +1,6 @@
 {
   "name": "dsh-studio-live",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "AI 游戏直播：dsh 模型、B站弹幕、VRM 与云端语音、OBS 和游戏适配",
   "entry": {
     "name": "dsh-studio-live",
