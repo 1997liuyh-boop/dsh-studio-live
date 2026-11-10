@@ -6,7 +6,7 @@
   "license": "MIT",
   "engines": {
     "node": ">=22",
-    "dsh": "0.2.1-rc.2 || 0.2.2-rc.1"
+    "dsh": "0.2.1-rc.2 || >=0.2.2-rc.1 <0.2.2"
   },
   "main": "lib/index.js",
   "exports": {
@@ -29,7 +29,8 @@
     "studio.json",
     "sources.json",
     "UPSTREAM.json",
-    "adapters"
+    "adapters",
+    "scripts/start.ps1"
   ],
   "dsh": {
     "bundle": {
@@ -74,13 +75,46 @@
     }
   },
   "scripts": {
-    "build": "node ../../scripts/build.mjs live"
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check-install.mjs"
   },
   "dependencies": {
     "mineflayer": "4.39.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/1997liuyh-boop/dsh-studio-live.git"
+    "url": "https://github.com/1997liuyh-boop/dsh-studio-live.git",
+    "directory": "studios/live"
+  },
+  "homepage": "https://github.com/1997liuyh-boop/dsh-studio-live#readme",
+  "bugs": {
+    "url": "https://github.com/1997liuyh-boop/dsh-studio-live/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "studio"
+  ],
+  "devDependencies": {
+    "@pixi/unsafe-eval": "^6.5.10",
+    "@pixiv/three-vrm": "^3.5.5",
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@types/ws": "^8.18.2",
+    "esbuild": "^0.28.2",
+    "fflate": "^0.8.3",
+    "mineflayer": "^4.39.0",
+    "msedge-tts": "^2.1.1",
+    "pixi-live2d-display": "^0.4.0",
+    "pixi.js": "^6.5.10",
+    "postcss": "^8.5.32",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "tailwindcss": "4.3.0",
+    "three": "^0.186.1",
+    "typescript": "6.0.3",
+    "ws": "^8.22.0"
   }
 }

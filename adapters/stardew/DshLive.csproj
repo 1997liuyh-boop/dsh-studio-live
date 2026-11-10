@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <AssemblyName>DshLive</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Stardew Valley"><HintPath>$(GamePath)/Stardew Valley.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="StardewModdingAPI"><HintPath>$(GamePath)/StardewModdingAPI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="MonoGame.Framework"><HintPath>$(GamePath)/MonoGame.Framework.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Netcode"><HintPath>$(GamePath)/Netcode.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+  <ItemGroup><None Update="manifest.json" CopyToOutputDirectory="PreserveNewest" /></ItemGroup>
+  <Target Name="RequireGamePath" BeforeTargets="Build"><Error Condition="!Exists('$(GamePath)/StardewModdingAPI.dll')" Text="请通过 -p:GamePath=游戏目录 指定已安装 SMAPI 的星露谷目录" /></Target>
+</Project>
