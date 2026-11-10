@@ -1,4 +1,17 @@
-# AI 游戏直播工作室
+# dsh-studio-live
+
+AI 游戏直播：dsh 模型、弹幕队列、语音形象、OBS 与星露谷适配
+
+本仓库根目录是可安装的 DSH 插件，版本 0.3.0。在插件市场添加本仓库 Git URL，安装后启用。先安装并启用 [工作室容器与共享运行时](https://github.com/1997liuyh-boop/dsh-studio-library)，再启用本插件。
+
+直播工作室是独立安装、独立启停和独立更新的业务插件；共享工作台只提供列表、控制和会话容器，不会随基础库自动安装本工作室。没有安装本包时，工作室列表不会显示直播业务页面。
+
+Git 安装使用已提交的 lib/ 与静态资源。开发时执行 npm install --include=dev --legacy-peer-deps、npm run build、npm run check；构建只使用本仓库源码与公开依赖，不引用相邻工作库。
+
+Live2D Core、Haru 样例与私人模型未包含在公开包内；按 LIVE2D.md 自行授权并导入。
+
+## 功能与上游说明
+
 
 独立的 `dsh-studio-live` 插件，配合 [1997liuyh-boop/deepseek-harness](https://github.com/1997liuyh-boop/deepseek-harness) 使用。宿主 fork 自 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness)，共享容器源自 [Aisland-SJL/dsh-worktable](https://github.com/Aisland-SJL/dsh-worktable)。0.2 参考本机 ai-vtuber-live 的完整方案和弹幕、语音、VRM 实现，感谢原作者及上游贡献者。
 

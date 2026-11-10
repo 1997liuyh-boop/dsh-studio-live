@@ -4,6 +4,8 @@ AI 游戏直播：dsh 模型、弹幕队列、语音形象、OBS 与星露谷适
 
 本仓库根目录是可安装的 DSH 插件，版本 0.3.0。在插件市场添加本仓库 Git URL，安装后启用。先安装并启用 [工作室容器与共享运行时](https://github.com/1997liuyh-boop/dsh-studio-library)，再启用本插件。
 
+直播工作室是独立安装、独立启停和独立更新的业务插件；共享工作台只提供列表、控制和会话容器，不会随基础库自动安装本工作室。没有安装本包时，工作室列表不会显示直播业务页面。
+
 Git 安装使用已提交的 lib/ 与静态资源。开发时执行 npm install --include=dev --legacy-peer-deps、npm run build、npm run check；构建只使用本仓库源码与公开依赖，不引用相邻工作库。
 
 Live2D Core、Haru 样例与私人模型未包含在公开包内；按 LIVE2D.md 自行授权并导入。
@@ -50,3 +52,7 @@ Minecraft 选项使用独立 Worker 内的 Mineflayer，连接自己管理的 `1
 先安装 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，再从 Windows dsh 插件管理器安装 tgz。Desktop profile 由应用自己的插件管理器维护。安装器会安装 Mineflayer 运行依赖；云端语音、VRM 和 UI 依赖随构建打包。当前交付兼容定制 dsh `0.2.2-rc.1`，保留 `0.2.1-rc.2` 支持；包的 `engines.dsh` 限定这两个宿主版本，其他版本需要另行验证。共享 SDK 固定快照见 SDK-SNAPSHOT.json。
 
 本仓库自有代码采用 MIT 许可证；Live2D 官方运行库和模型素材遵循各自条款。感谢 [three-vrm](https://github.com/pixiv/three-vrm)、[Three.js](https://github.com/mrdoob/three.js)、[MsEdgeTTS](https://github.com/Migushthe2nd/MsEdgeTTS)、[ws](https://github.com/websockets/ws) 和 [Mineflayer](https://github.com/PrismarineJS/mineflayer)。普通构建不附带模型，用户自有模型需自行确认授权；本地验证构建包含官方 Haru 与通知，见 Live2D 说明。OBS、SMAPI 和游戏软件未随包分发。
+
+## 更新已安装插件
+
+GitHub 代码提交不会自动更新 Desktop profile 中已经锁定的安装版本。请通过插件管理器重新安装本仓库来源；旧共享组合库的用户请先按[控制层迁移步骤](https://github.com/1997liuyh-boop/dsh-studio-library#更新与旧组合库迁移)保留现有子工作室，再移除旧组合库。工作室内升级需要已发布的适配安装包。
