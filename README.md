@@ -25,10 +25,10 @@ This repository declares a DSH bundle at `package.json` → `dsh.bundle.patch`. 
 
 ```text
 github:1997liuyh-boop/dsh-studio-library#v0.1.3
-github:1997liuyh-boop/dsh-studio-live#v0.3.8
+github:1997liuyh-boop/dsh-studio-live#v0.3.9
 ```
 
-Confirm that the plugin manager lists `dsh-studio-live` version `0.3.8`, then open Live studio. The package requires compatible `dsh-worktable` `^0.6.0` and `dsh-studio-projects` `^0.5.0`, supplied by the control package.
+Confirm that the plugin manager lists `dsh-studio-live` version `0.3.9`, then open Live studio. The package requires compatible `dsh-worktable` `^0.6.0` and `dsh-studio-projects` `^0.5.0`, supplied by the control package.
 
 For local development, use Node.js 22 and npm:
 
