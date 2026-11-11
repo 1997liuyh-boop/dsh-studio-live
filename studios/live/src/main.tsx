@@ -7,7 +7,7 @@ import { type Emotion } from './stage'
 import { createAvatarStage, type AvatarStage } from './avatar-stage'
 import { avatarAsset } from './assets'
 import { BridgePanel } from './bridge'
-import { gameActions, minecraftActions, newFarm, parseDecision, stepFarm, type FarmAction } from './game'
+import { gameActions, minecraftActions, newFarm, parseDecision, planFarm, stepFarm, type FarmAction } from './game'
 
 const button = 'rounded-lg border border-slate-300 px-3 py-2 text-sm hover:bg-slate-100 disabled:opacity-40 dark:border-slate-700 dark:hover:bg-slate-800'
 const field = 'w-full rounded-lg border border-slate-300 bg-transparent p-2 text-sm dark:border-slate-700'
@@ -104,8 +104,11 @@ function App() {
       const actual = config.game === 'practice' ? farmState.current : config.game === 'minecraft' ? await api('minecraft-state', { runId: run.id }, signal) : await api('game-state', { port: config.gamePort, token: config.gameToken }, signal)
       signal.throwIfAborted(); actualState.current = actual as Record<string, unknown>
       if (config.game !== 'practice') setGameState(actual as Record<string, unknown>)
-      const output = await models.current.game.ask('你是虚拟农场主播。只输出 JSON：{"action":"允许的动作","speech":"简短中文解说"}，不调用工具。每次只选择一个动作。目标：' + config.goal + '\n允许动作：' + actions.join(',') + '\n真实状态：' + JSON.stringify(actual) + (config.game === 'practice' ? '\n练习场6×6，0=空地、1=已种、2=已浇、3=成熟。plant→water→wait→harvest，操作脚下格子。' : '\n菜单打开时选择stop；每次动作最多15帧，不会自动选择装备。'))
-      signal.throwIfAborted(); const decision = parseDecision(output, actions)
+      // 内置农场练习场用本地规则决策，不调用 AI 会话（会话流不可用时也能运行）；真实游戏仍由 AI 选择动作
+      const decision = config.game === 'practice'
+        ? planFarm(farmState.current)
+        : parseDecision(await models.current.game.ask('你是虚拟农场主播。只输出 JSON：{"action":"允许的动作","speech":"简短中文解说"}，不调用工具。每次只选择一个动作。目标：' + config.goal + '\n允许动作：' + actions.join(',') + '\n真实状态：' + JSON.stringify(actual) + '\n菜单打开时选择stop；每次动作最多15帧，不会自动选择装备。'), actions)
+      signal.throwIfAborted()
       if (settings.current.playing) {
         if (config.game === 'practice') { farmState.current = stepFarm(farmState.current, decision.action as FarmAction); setFarm(farmState.current) }
         else { const next = config.game === 'minecraft' ? await api('minecraft-action', { runId: run.id, command: decision.action }, signal) : await api('game-action', { runId: run.id, port: config.gamePort, token: config.gameToken, command: { action: decision.action, frames: 15 } }, signal); actualState.current = next; setGameState(next) }
