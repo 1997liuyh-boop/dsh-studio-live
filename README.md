@@ -14,6 +14,7 @@
 - Receive Bilibili danmaku through WBI authentication, heartbeat, decompression, bounded retries, and in-memory Cookie handling.
 - Queue and deduplicate up to 20 messages and 8 voice lines, with expiry, cancellation, and visible failure states.
 - Import VRM, PNG/WebP/JPG, and Live2D Cubism 3/4 model ZIP files; persist models in local IndexedDB.
+- Show the bundled whale-girl artwork on first launch; importing a local model or image replaces it and takes precedence on later launches.
 - Drive lip sync from cloud voice envelopes or approximate local system speech; reuse the renderer for preview and OBS.
 - Connect OBS WebSocket v5 using a local read-only overlay URL with a random token.
 - Provide bounded Stardew Valley and Minecraft adapters when the user supplies the supported game, mod/runtime, and local server.
@@ -24,10 +25,10 @@ This repository declares a DSH bundle at `package.json` → `dsh.bundle.patch`. 
 
 ```text
 github:1997liuyh-boop/dsh-studio-library#v0.1.3
-github:1997liuyh-boop/dsh-studio-live#v0.3.1
+github:1997liuyh-boop/dsh-studio-live#v0.3.6
 ```
 
-Confirm that the plugin manager lists `dsh-studio-live` version `0.3.1`, then open Live studio. The package requires compatible `dsh-worktable` `^0.6.0` and `dsh-studio-projects` `^0.5.0`, supplied by the control package.
+Confirm that the plugin manager lists `dsh-studio-live` version `0.3.6`, then open Live studio. The package requires compatible `dsh-worktable` `^0.6.0` and `dsh-studio-projects` `^0.5.0`, supplied by the control package.
 
 For local development, use Node.js 22 and npm:
 
@@ -50,3 +51,5 @@ Live2D ZIP files are validated locally and are limited to 32 MB compressed, 128 
 The adaptation uses the DSH host [1997liuyh-boop/deepseek-harness](https://github.com/1997liuyh-boop/deepseek-harness), the shared [dsh-studio-library](https://github.com/1997liuyh-boop/dsh-studio-library), and references local ai-vtuber-live material plus MIT dependencies listed in [UPSTREAM.json](UPSTREAM.json). Original code is MIT licensed; see [LICENSE](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 Live2D Cubism Core, Haru, and sample models follow Live2D's proprietary and sample-material terms. They are local-development-only assets and are excluded from the public package. See [LIVE2D.md](LIVE2D.md) and [THIRD-PARTY-LIVE2D.txt](THIRD-PARTY-LIVE2D.txt).
+
+The bundled default artwork is a static transparent image, not a bound Live2D Cubism model. Import a licensed Live2D ZIP, VRM, or local image to use a custom animated avatar.

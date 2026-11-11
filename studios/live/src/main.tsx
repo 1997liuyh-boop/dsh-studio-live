@@ -166,7 +166,15 @@ function App() {
       const options = await api('avatar-options'); if (alive.current) setSampleAvailable(options.sampleAvailable === true)
       const saved = await avatarAsset()
       if (saved) await importAvatar(saved, false)
-      else { const legacy = localStorage.getItem('dsh.studio.live.avatar.v1'); if (legacy?.startsWith('data:image/')) await importAvatar(await (await fetch(legacy)).blob()) }
+      else {
+        const legacy = localStorage.getItem('dsh.studio.live.avatar.v1')
+        if (legacy?.startsWith('data:image/')) await importAvatar(await (await fetch(legacy)).blob())
+        else {
+          const response = await fetch('/studio-projects/live/default-avatar.png')
+          if (!response.ok) throw new Error('默认直播形象暂不可用')
+          await importAvatar(await response.blob(), false)
+        }
+      }
     })().catch(report)
     const closing = () => {
       const run = runtime.current

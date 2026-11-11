@@ -14,6 +14,7 @@
 - 通过 WBI 鉴权、心跳、解包、有限重试和内存 Cookie 接收 B 站弹幕。
 - 最多排队 20 条弹幕和 8 句语音，支持去重、过期、取消和明确失败状态。
 - 导入 VRM、PNG/WebP/JPG 及 Live2D Cubism 3/4 模型 ZIP，并将形象保存在本机 IndexedDB。
+- 首次打开显示仓库内置的鲸鱼女孩静态形象；导入本地模型或图片后会优先使用自定义形象。
 - 使用云端语音音量包络或本机语音近似驱动口型；预览与 OBS 共用渲染器。
 - 通过带随机令牌的本机只读地址连接 OBS WebSocket v5。
 - 在用户提供游戏、模组/运行时和本地服务器后，提供范围受限的星露谷和 Minecraft 适配器。
@@ -24,10 +25,10 @@
 
 ```text
 github:1997liuyh-boop/dsh-studio-library#v0.1.3
-github:1997liuyh-boop/dsh-studio-live#v0.3.1
+github:1997liuyh-boop/dsh-studio-live#v0.3.6
 ```
 
-确认插件管理器显示 `dsh-studio-live` 版本 `0.3.1`，然后打开“直播”工作室。本插件要求兼容的 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，由控制包提供。
+确认插件管理器显示 `dsh-studio-live` 版本 `0.3.6`，然后打开“直播”工作室。本插件要求兼容的 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，由控制包提供。
 
 本地开发需要 Node.js 22 和 npm：
 
@@ -50,3 +51,5 @@ Live2D ZIP 在本机校验，压缩包上限 32 MB，解压后 128 MB、256 个�
 本适配使用 DSH 宿主 [1997liuyh-boop/deepseek-harness](https://github.com/1997liuyh-boop/deepseek-harness)、共享 [dsh-studio-library](https://github.com/1997liuyh-boop/dsh-studio-library)，并参考本机 ai-vtuber-live 资料及 [UPSTREAM.json](UPSTREAM.json) 列出的 MIT 依赖。本仓库原创代码采用 MIT 许可，详见 [LICENSE](LICENSE) 和 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 Live2D Cubism Core、Haru 和样例模型遵循 Live2D 专有许可及样例素材条款，仅用于本地开发，排除在公开包之外。详见 [LIVE2D.md](LIVE2D.md) 和 [THIRD-PARTY-LIVE2D.txt](THIRD-PARTY-LIVE2D.txt)。
+
+内置默认形象是透明静态图片，不是已绑定的 Live2D Cubism 模型。导入获得授权的 Live2D ZIP、VRM 或本地图片即可替换。
