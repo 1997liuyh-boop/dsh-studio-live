@@ -25,10 +25,10 @@
 
 ```text
 github:1997liuyh-boop/dsh-studio-library#v0.1.3
-github:1997liuyh-boop/dsh-studio-live#v0.3.6
+github:1997liuyh-boop/dsh-studio-live#v0.3.7
 ```
 
-确认插件管理器显示 `dsh-studio-live` 版本 `0.3.6`，然后打开“直播”工作室。本插件要求兼容的 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，由控制包提供。
+确认插件管理器显示 `dsh-studio-live` 版本 `0.3.7`，然后打开“直播”工作室。本插件要求兼容的 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，由控制包提供。
 
 本地开发需要 Node.js 22 和 npm：
 

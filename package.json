@@ -1,6 +1,6 @@
 {
   "name": "dsh-studio-live",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "AI 游戏直播：dsh 模型、弹幕队列、语音形象、OBS 与星露谷适配",
   "type": "module",
   "license": "MIT",
@@ -12,7 +12,8 @@
   "exports": {
     ".": "./lib/index.js",
     "./client": "./lib/client.js",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
   },
   "files": [
     "lib",
@@ -30,7 +31,8 @@
     "sources.json",
     "UPSTREAM.json",
     "adapters",
-    "scripts/start.ps1"
+    "scripts/start.ps1",
+    "locale"
   ],
   "dsh": {
     "bundle": {
