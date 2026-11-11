@@ -5,3 +5,4 @@ node_modules/
 *.tgz
 artifacts/
 # lib/static 是 Git 安装所需的已构建文件，需要提交。
+release/
