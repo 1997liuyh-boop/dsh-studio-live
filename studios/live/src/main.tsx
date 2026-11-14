@@ -35,6 +35,7 @@ function App() {
   const [queueSize, setQueueSize] = useState(0), [logs, setLogs] = useState<{ id: string; text: string }[]>([])
   const [asset, setAsset] = useState<{ blob: Blob; kind: string; url: string; modelUrl: string; name: string; expressions: string[] }>()
   const [avatarBusy, setAvatarBusy] = useState(false), [avatarReady, setAvatarReady] = useState(false), [sampleAvailable, setSampleAvailable] = useState(false)
+  const [defaultModelAvailable, setDefaultModelAvailable] = useState(false), [missingCore, setMissingCore] = useState(false)
   const [expression, setExpression] = useState('')
   const [speaking, setSpeaking] = useState(false), [voice, setVoice] = useState('cloud'), [voiceName, setVoiceName] = useState('zh-CN-XiaoyiNeural')
   const [emotion, setEmotion] = useState<Emotion>('neutral'), [name, setName] = useState('观众'), [comment, setComment] = useState('')
@@ -175,14 +176,15 @@ function App() {
   useEffect(() => {
     alive.current = true
     void (async () => {
-      const options = await api('avatar-options'); if (alive.current) setSampleAvailable(options.sampleAvailable === true)
+      const options = await api('avatar-options')
+      if (alive.current) { setSampleAvailable(options.sampleAvailable === true); setDefaultModelAvailable(options.defaultModelAvailable === true && options.live2dAvailable === true); setMissingCore(options.defaultModelAvailable === true && options.live2dAvailable !== true) }
       const saved = await avatarAsset()
       if (saved) await importAvatar(saved, false)
       else {
         const legacy = localStorage.getItem('dsh.studio.live.avatar.v1')
         if (legacy?.startsWith('data:image/')) await importAvatar(await (await fetch(legacy)).blob())
         else {
-          const response = await fetch('/studio-projects/live/default-avatar.png')
+          const response = await fetch(options.defaultModelAvailable === true && options.live2dAvailable === true ? '/studio-projects/live/default-avatar.zip' : '/studio-projects/live/default-avatar.png')
           if (!response.ok) throw new Error('默认直播形象暂不可用')
           await importAvatar(await response.blob(), false)
         }
@@ -228,6 +230,8 @@ function App() {
       <details><summary className="cursor-pointer text-sm">活动记录</summary><ol className="mt-2 max-h-64 space-y-1 overflow-y-auto text-xs">{logs.map(item => <li key={item.id}>{item.text}</li>)}</ol></details></section>
       <aside className={panel}><h2 className="font-medium">直播设置</h2>
         <label className="block space-y-2 text-sm"><span>形象 Live2D ZIP／VRM／图片</span><input className={field} type="file" disabled={running || avatarBusy} accept=".zip,.vrm,image/png,image/webp,image/jpeg" onChange={e => { const file = e.target.files?.[0]; if (file) guarded(() => importAvatar(file)) }} /></label>
+        {defaultModelAvailable && <button className={button} disabled={running || avatarBusy} onClick={() => guarded(async () => { const response = await fetch('/studio-projects/live/default-avatar.zip'); if (!response.ok) throw new Error('鲸鱼娘模型暂不可用'); await importAvatar(await response.blob()) })}>载入鲸鱼娘 Live2D</button>}
+        {missingCore && <p className="text-xs text-slate-600 dark:text-slate-400">鲸鱼娘 Live2D 需要安装官方运行库。安装方法见插件的 Live2D 说明。</p>}
         {sampleAvailable && <button className={button} disabled={running || avatarBusy} onClick={() => guarded(async () => { const response = await fetch('/studio-projects/live/sample'); if (!response.ok) throw new Error('官方样例暂不可用'); await importAvatar(await response.blob()) })}>载入 Live2D 官方样例</button>}
         {asset?.kind === 'live2d' && <div className="space-y-2 text-xs text-slate-600 dark:text-slate-400"><p>Live2D · {asset.name} · {avatarReady ? '已加载' : '加载中'}</p><p>ZIP 需要包含 model3.json、moc3 和引用的 PNG 贴图；仅支持模型已有的动作与表情。</p>{sampleAvailable && <details><summary className="cursor-pointer">官方样例版权说明</summary><p className="mt-2">Haru 样例版权归 Live2D Inc. 所有，仅用于本地开发验证。This content uses sample data owned and copyrighted by Live2D Inc.</p></details>}</div>}
         <label className="block space-y-2 text-sm"><span>清晰度</span><select aria-label="清晰度" className={field} value={quality} onChange={e => changeQuality(parseQuality(e.target.value))}>{(Object.keys(QUALITIES) as LiveQuality[]).map(key => <option key={key} value={key}>{QUALITIES[key].label}</option>)}</select><span className="block text-xs text-slate-600 dark:text-slate-400">作用于 OBS 形象源（{QUALITIES[quality].width}×{QUALITIES[quality].height}）和这里的预览。已添加过的形象源，在 OBS 里把浏览器源尺寸改成同样大小即可，或重新添加。档位越高越占显卡。</span></label>

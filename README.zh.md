@@ -25,10 +25,12 @@
 
 ```text
 github:1997liuyh-boop/dsh-studio-library#v0.1.3
-github:1997liuyh-boop/dsh-studio-live#v0.3.11
+github:1997liuyh-boop/dsh-studio-live#v0.3.12
 ```
 
-确认插件管理器显示 `dsh-studio-live` 版本 `0.3.11`，然后打开“直播”工作室。本插件要求兼容的 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，由控制包提供。
+确认插件管理器显示 `dsh-studio-live` 版本 `0.3.12`，然后打开“直播”工作室。本插件要求兼容的 `dsh-worktable ^0.6.0` 和 `dsh-studio-projects ^0.5.0`，由控制包提供。
+
+默认形象为鲸鱼娘。安装 Live2D 官方运行库后可使用眨眼、呼吸和表情；未安装时显示静态形象，详见 [Live2D 说明](LIVE2D.md)。
 
 本地开发需要 Node.js 22 和 npm：
 

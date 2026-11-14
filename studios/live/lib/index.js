@@ -51,9 +51,9 @@ var init_define_STUDIO_PROJECT = __esm({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/constants.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/constants.js
 var require_constants = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/constants.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/constants.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var BINARY_TYPES = ["nodebuffer", "arraybuffer", "fragments"];
@@ -75,9 +75,9 @@ var require_constants = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/buffer-util.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/buffer-util.js
 var require_buffer_util = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/buffer-util.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/buffer-util.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var { EMPTY_BUFFER } = require_constants();
@@ -151,9 +151,9 @@ var require_buffer_util = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/limiter.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/limiter.js
 var require_limiter = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/limiter.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/limiter.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var kDone = /* @__PURE__ */ Symbol("kDone");
@@ -202,9 +202,9 @@ var require_limiter = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/permessage-deflate.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/permessage-deflate.js
 var require_permessage_deflate = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/permessage-deflate.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/permessage-deflate.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var zlib = __require("zlib");
@@ -586,9 +586,9 @@ var require_permessage_deflate = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/validation.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/validation.js
 var require_validation = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/validation.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/validation.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var { isUtf8 } = __require("buffer");
@@ -788,9 +788,9 @@ var require_validation = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/receiver.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/receiver.js
 var require_receiver = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/receiver.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/receiver.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var { Writable } = __require("stream");
@@ -1412,9 +1412,9 @@ var require_receiver = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/sender.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/sender.js
 var require_sender = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/sender.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/sender.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var { Duplex } = __require("stream");
@@ -1906,9 +1906,9 @@ var require_sender = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/event-target.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/event-target.js
 var require_event_target = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/event-target.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/event-target.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var { kForOnEventAttribute, kListener } = require_constants();
@@ -2136,9 +2136,9 @@ var require_event_target = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/extension.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/extension.js
 var require_extension = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/extension.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/extension.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var { tokenChars } = require_validation();
@@ -2290,9 +2290,9 @@ var require_extension = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/websocket.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/websocket.js
 var require_websocket = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/websocket.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/websocket.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var EventEmitter = __require("events");
@@ -3200,9 +3200,9 @@ var require_websocket = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/stream.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/stream.js
 var require_stream = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/stream.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/stream.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var WebSocket3 = require_websocket();
@@ -3299,9 +3299,9 @@ var require_stream = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/subprotocol.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/subprotocol.js
 var require_subprotocol = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/subprotocol.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/subprotocol.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var { tokenChars } = require_validation();
@@ -3345,9 +3345,9 @@ var require_subprotocol = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/websocket-server.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/websocket-server.js
 var require_websocket_server = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/websocket-server.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/lib/websocket-server.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var EventEmitter = __require("events");
@@ -3747,9 +3747,9 @@ var require_websocket_server = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/delayed-stream/lib/delayed_stream.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/delayed-stream/lib/delayed_stream.js
 var require_delayed_stream = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/delayed-stream/lib/delayed_stream.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/delayed-stream/lib/delayed_stream.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var Stream = __require("stream").Stream;
     var util = __require("util");
@@ -3839,9 +3839,9 @@ var require_delayed_stream = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/combined-stream/lib/combined_stream.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/combined-stream/lib/combined_stream.js
 var require_combined_stream = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/combined-stream/lib/combined_stream.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/combined-stream/lib/combined_stream.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var util = __require("util");
     var Stream = __require("stream").Stream;
@@ -4009,9 +4009,9 @@ var require_combined_stream = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/mime-db/db.json
+// ../../../studio-repositories/dsh-studio-live/node_modules/mime-db/db.json
 var require_db = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/mime-db/db.json"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/mime-db/db.json"(exports, module) {
     module.exports = {
       "application/1d-interleaved-parityfec": {
         source: "iana"
@@ -12534,17 +12534,17 @@ var require_db = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/mime-db/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/mime-db/index.js
 var require_mime_db = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/mime-db/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/mime-db/index.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     module.exports = require_db();
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/mime-types/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/mime-types/index.js
 var require_mime_types = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/mime-types/index.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/mime-types/index.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var db = require_mime_db();
@@ -12633,9 +12633,9 @@ var require_mime_types = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/defer.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/defer.js
 var require_defer = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/defer.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/defer.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     module.exports = defer;
     function defer(fn) {
@@ -12649,9 +12649,9 @@ var require_defer = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/async.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/async.js
 var require_async = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/async.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/async.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var defer = require_defer();
     module.exports = async;
@@ -12673,9 +12673,9 @@ var require_async = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/abort.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/abort.js
 var require_abort = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/abort.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/abort.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     module.exports = abort;
     function abort(state) {
@@ -12690,9 +12690,9 @@ var require_abort = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/iterate.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/iterate.js
 var require_iterate = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/iterate.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/iterate.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var async = require_async();
     var abort = require_abort();
@@ -12724,9 +12724,9 @@ var require_iterate = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/state.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/state.js
 var require_state = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/state.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/state.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     module.exports = state;
     function state(list, sortMethod) {
@@ -12747,9 +12747,9 @@ var require_state = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/terminator.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/terminator.js
 var require_terminator = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/terminator.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/lib/terminator.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var abort = require_abort();
     var async = require_async();
@@ -12765,9 +12765,9 @@ var require_terminator = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/parallel.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/parallel.js
 var require_parallel = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/parallel.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/parallel.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var iterate = require_iterate();
     var initState = require_state();
@@ -12793,9 +12793,9 @@ var require_parallel = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/serialOrdered.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/serialOrdered.js
 var require_serialOrdered = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/serialOrdered.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/serialOrdered.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var iterate = require_iterate();
     var initState = require_state();
@@ -12828,9 +12828,9 @@ var require_serialOrdered = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/serial.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/serial.js
 var require_serial = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/serial.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/serial.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var serialOrdered = require_serialOrdered();
     module.exports = serial;
@@ -12840,9 +12840,9 @@ var require_serial = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/asynckit/index.js
 var require_asynckit = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/asynckit/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/asynckit/index.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     module.exports = {
       parallel: require_parallel(),
@@ -12852,135 +12852,135 @@ var require_asynckit = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-object-atoms/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-object-atoms/index.js
 var require_es_object_atoms = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-object-atoms/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-object-atoms/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Object;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-errors/index.js
 var require_es_errors = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-errors/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Error;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/eval.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-errors/eval.js
 var require_eval = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/eval.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-errors/eval.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = EvalError;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/range.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-errors/range.js
 var require_range = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/range.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-errors/range.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = RangeError;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/ref.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-errors/ref.js
 var require_ref = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/ref.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-errors/ref.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = ReferenceError;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/syntax.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-errors/syntax.js
 var require_syntax = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/syntax.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-errors/syntax.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = SyntaxError;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/type.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-errors/type.js
 var require_type = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/type.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-errors/type.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = TypeError;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/uri.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-errors/uri.js
 var require_uri = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-errors/uri.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-errors/uri.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = URIError;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/abs.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/abs.js
 var require_abs = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/abs.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/abs.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Math.abs;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/floor.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/floor.js
 var require_floor = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/floor.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/floor.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Math.floor;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/max.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/max.js
 var require_max = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/max.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/max.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Math.max;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/min.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/min.js
 var require_min = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/min.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/min.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Math.min;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/pow.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/pow.js
 var require_pow = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/pow.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/pow.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Math.pow;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/round.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/round.js
 var require_round = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/round.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/round.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Math.round;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/isNaN.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/isNaN.js
 var require_isNaN = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/isNaN.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/isNaN.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Number.isNaN || function isNaN2(a) {
@@ -12989,9 +12989,9 @@ var require_isNaN = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/sign.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/sign.js
 var require_sign = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/sign.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/math-intrinsics/sign.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var $isNaN = require_isNaN();
@@ -13004,18 +13004,18 @@ var require_sign = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/gopd/gOPD.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/gopd/gOPD.js
 var require_gOPD = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/gopd/gOPD.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/gopd/gOPD.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Object.getOwnPropertyDescriptor;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/gopd/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/gopd/index.js
 var require_gopd = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/gopd/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/gopd/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var $gOPD = require_gOPD();
@@ -13030,9 +13030,9 @@ var require_gopd = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-define-property/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-define-property/index.js
 var require_es_define_property = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-define-property/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-define-property/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var $defineProperty = Object.defineProperty || false;
@@ -13047,9 +13047,9 @@ var require_es_define_property = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/has-symbols/shams.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/has-symbols/shams.js
 var require_shams = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/has-symbols/shams.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/has-symbols/shams.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = function hasSymbols() {
@@ -13103,9 +13103,9 @@ var require_shams = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/has-symbols/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/has-symbols/index.js
 var require_has_symbols = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/has-symbols/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/has-symbols/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var origSymbol = typeof Symbol !== "undefined" && Symbol;
@@ -13128,18 +13128,18 @@ var require_has_symbols = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/get-proto/Reflect.getPrototypeOf.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/get-proto/Reflect.getPrototypeOf.js
 var require_Reflect_getPrototypeOf = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/get-proto/Reflect.getPrototypeOf.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/get-proto/Reflect.getPrototypeOf.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = typeof Reflect !== "undefined" && Reflect.getPrototypeOf || null;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/get-proto/Object.getPrototypeOf.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/get-proto/Object.getPrototypeOf.js
 var require_Object_getPrototypeOf = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/get-proto/Object.getPrototypeOf.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/get-proto/Object.getPrototypeOf.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var $Object = require_es_object_atoms();
@@ -13147,9 +13147,9 @@ var require_Object_getPrototypeOf = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/function-bind/implementation.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/function-bind/implementation.js
 var require_implementation = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/function-bind/implementation.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/function-bind/implementation.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
@@ -13224,9 +13224,9 @@ var require_implementation = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/function-bind/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/function-bind/index.js
 var require_function_bind = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/function-bind/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/function-bind/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var implementation = require_implementation();
@@ -13234,36 +13234,36 @@ var require_function_bind = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/functionCall.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/functionCall.js
 var require_functionCall = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/functionCall.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/functionCall.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Function.prototype.call;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/functionApply.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/functionApply.js
 var require_functionApply = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/functionApply.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/functionApply.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = Function.prototype.apply;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/reflectApply.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/reflectApply.js
 var require_reflectApply = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/reflectApply.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/reflectApply.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = typeof Reflect !== "undefined" && Reflect && Reflect.apply;
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/actualApply.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/actualApply.js
 var require_actualApply = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/actualApply.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/actualApply.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var bind = require_function_bind();
@@ -13274,9 +13274,9 @@ var require_actualApply = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/index.js
 var require_call_bind_apply_helpers = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/call-bind-apply-helpers/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var bind = require_function_bind();
@@ -13292,9 +13292,9 @@ var require_call_bind_apply_helpers = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/dunder-proto/get.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/dunder-proto/get.js
 var require_get = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/dunder-proto/get.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/dunder-proto/get.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var callBind = require_call_bind_apply_helpers();
@@ -13324,9 +13324,9 @@ var require_get = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/get-proto/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/get-proto/index.js
 var require_get_proto = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/get-proto/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/get-proto/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var reflectGetProto = require_Reflect_getPrototypeOf();
@@ -13345,9 +13345,9 @@ var require_get_proto = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/hasown/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/hasown/index.js
 var require_hasown = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/hasown/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/hasown/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var call = Function.prototype.call;
@@ -13357,9 +13357,9 @@ var require_hasown = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/get-intrinsic/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/get-intrinsic/index.js
 var require_get_intrinsic = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/get-intrinsic/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/get-intrinsic/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var undefined2;
@@ -13689,9 +13689,9 @@ var require_get_intrinsic = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/has-tostringtag/shams.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/has-tostringtag/shams.js
 var require_shams2 = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/has-tostringtag/shams.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/has-tostringtag/shams.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var hasSymbols = require_shams();
@@ -13701,9 +13701,9 @@ var require_shams2 = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/es-set-tostringtag/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/es-set-tostringtag/index.js
 var require_es_set_tostringtag = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/es-set-tostringtag/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/es-set-tostringtag/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var GetIntrinsic = require_get_intrinsic();
@@ -13734,9 +13734,9 @@ var require_es_set_tostringtag = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/form-data/lib/populate.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/form-data/lib/populate.js
 var require_populate = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/form-data/lib/populate.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/form-data/lib/populate.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = function(dst, src) {
@@ -13748,9 +13748,9 @@ var require_populate = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/form-data/lib/form_data.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/form-data/lib/form_data.js
 var require_form_data = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/form-data/lib/form_data.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/form-data/lib/form_data.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var CombinedStream = require_combined_stream();
@@ -14071,9 +14071,9 @@ var require_form_data = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ms/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ms/index.js
 var require_ms = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ms/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ms/index.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var s = 1e3;
     var m = s * 60;
@@ -14188,9 +14188,9 @@ var require_ms = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/debug/src/common.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/debug/src/common.js
 var require_common = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/debug/src/common.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/debug/src/common.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     function setup(env) {
       createDebug.debug = createDebug;
@@ -14366,9 +14366,9 @@ var require_common = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/debug/src/browser.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/debug/src/browser.js
 var require_browser = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/debug/src/browser.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/debug/src/browser.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     exports.formatArgs = formatArgs;
     exports.save = save;
@@ -14537,9 +14537,9 @@ var require_browser = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/debug/src/node.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/debug/src/node.js
 var require_node = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/debug/src/node.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/debug/src/node.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var tty = __require("tty");
     var util = __require("util");
@@ -14712,9 +14712,9 @@ var require_node = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/debug/src/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/debug/src/index.js
 var require_src = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/debug/src/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/debug/src/index.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     if (typeof process === "undefined" || process.type === "renderer" || process.browser === true || process.__nwjs) {
       module.exports = require_browser();
@@ -14724,9 +14724,9 @@ var require_src = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/agent-base/dist/src/promisify.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/agent-base/dist/src/promisify.js
 var require_promisify = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/agent-base/dist/src/promisify.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/agent-base/dist/src/promisify.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -14747,9 +14747,9 @@ var require_promisify = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/agent-base/dist/src/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/agent-base/dist/src/index.js
 var require_src2 = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/agent-base/dist/src/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/agent-base/dist/src/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var __importDefault = exports && exports.__importDefault || function(mod) {
@@ -14931,9 +14931,9 @@ var require_src2 = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/parse-proxy-response.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/parse-proxy-response.js
 var require_parse_proxy_response = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/parse-proxy-response.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/parse-proxy-response.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var __importDefault = exports && exports.__importDefault || function(mod) {
@@ -14998,9 +14998,9 @@ var require_parse_proxy_response = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/agent.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/agent.js
 var require_agent = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/agent.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/agent.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
@@ -15159,9 +15159,9 @@ var require_agent = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/index.js
 var require_dist = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/https-proxy-agent/dist/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var __importDefault = exports && exports.__importDefault || function(mod) {
@@ -15179,9 +15179,9 @@ var require_dist = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/follow-redirects/debug.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/follow-redirects/debug.js
 var require_debug = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/follow-redirects/debug.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/follow-redirects/debug.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var debug;
     module.exports = function() {
@@ -15200,9 +15200,9 @@ var require_debug = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/follow-redirects/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/follow-redirects/index.js
 var require_follow_redirects = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/follow-redirects/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/follow-redirects/index.js"(exports, module) {
     init_define_STUDIO_PROJECT();
     var url = __require("url");
     var URL2 = url.URL;
@@ -15715,9 +15715,9 @@ var require_follow_redirects = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/axios/dist/node/axios.cjs
+// ../../../studio-repositories/dsh-studio-live/node_modules/axios/dist/node/axios.cjs
 var require_axios = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/axios/dist/node/axios.cjs"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/axios/dist/node/axios.cjs"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var FormData$1 = require_form_data();
@@ -21423,9 +21423,9 @@ var require_axios = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/index.js
 var require_ws = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ws/index.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ws/index.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var createWebSocketStream2 = require_stream();
@@ -21449,18 +21449,18 @@ var require_ws = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/isomorphic-ws/node.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/isomorphic-ws/node.js
 var require_node2 = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/isomorphic-ws/node.js"(exports, module) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/isomorphic-ws/node.js"(exports, module) {
     "use strict";
     init_define_STUDIO_PROJECT();
     module.exports = require_ws();
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/base64-js/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/base64-js/index.js
 var require_base64_js = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/base64-js/index.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/base64-js/index.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     exports.byteLength = byteLength;
@@ -21560,9 +21560,9 @@ var require_base64_js = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ieee754/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/ieee754/index.js
 var require_ieee754 = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/ieee754/index.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/ieee754/index.js"(exports) {
     init_define_STUDIO_PROJECT();
     exports.read = function(buffer, offset, isLE, mLen, nBytes) {
       var e, m;
@@ -21644,9 +21644,9 @@ var require_ieee754 = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/buffer/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/buffer/index.js
 var require_buffer = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/buffer/index.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/buffer/index.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var base64 = require_base64_js();
@@ -23237,9 +23237,9 @@ var require_buffer = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/Output.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/Output.js
 var require_Output = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/Output.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/Output.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -23258,9 +23258,9 @@ var require_Output = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/Prosody.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/Prosody.js
 var require_Prosody = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/Prosody.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/Prosody.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -23317,9 +23317,9 @@ var require_Prosody = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/utils.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/utils.js
 var require_utils = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/utils.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/utils.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -23331,9 +23331,9 @@ var require_utils = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/SecMsGec.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/SecMsGec.js
 var require_SecMsGec = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/SecMsGec.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/SecMsGec.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -23396,9 +23396,9 @@ var require_SecMsGec = __commonJS({
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/MsEdgeTTS.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/MsEdgeTTS.js
 var require_MsEdgeTTS = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/MsEdgeTTS.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/MsEdgeTTS.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
@@ -23975,9 +23975,9 @@ Path:${messageTypes.SSML}${_MsEdgeTTS.JSON_XML_DELIM}` + requestSSML.trim();
   }
 });
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/index.js
+// ../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/index.js
 var require_dist2 = __commonJS({
-  "../../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/index.js"(exports) {
+  "../../../studio-repositories/dsh-studio-live/node_modules/msedge-tts/dist/index.js"(exports) {
     "use strict";
     init_define_STUDIO_PROJECT();
     var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
@@ -24067,7 +24067,7 @@ init_define_STUDIO_PROJECT();
 import { createHash as createHash2, randomUUID as randomUUID2 } from "node:crypto";
 import { brotliDecompressSync, inflateSync } from "node:zlib";
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/ws/wrapper.mjs
+// ../../../studio-repositories/dsh-studio-live/node_modules/ws/wrapper.mjs
 init_define_STUDIO_PROJECT();
 var import_stream = __toESM(require_stream(), 1);
 var import_extension = __toESM(require_extension(), 1);
@@ -24435,7 +24435,7 @@ var MinecraftAdapter = class {
 // studios/live/src/live2d-package.ts
 init_define_STUDIO_PROJECT();
 
-// ../../../../studio-repositories/dsh-studio-live/node_modules/fflate/esm/index.mjs
+// ../../../studio-repositories/dsh-studio-live/node_modules/fflate/esm/index.mjs
 init_define_STUDIO_PROJECT();
 import { createRequire } from "module";
 var require2 = createRequire("/");
@@ -25288,7 +25288,7 @@ async function apply(ctx) {
       }
       const input = record(JSON.parse(Buffer.concat(chunks).toString("utf8")));
       if (input.action === "avatar-options") {
-        send(res, 200, { live2dAvailable: !!core, sampleAvailable: !!core && !!sample });
+        send(res, 200, { live2dAvailable: !!core, sampleAvailable: !!core && !!sample, defaultModelAvailable: existsSync(new URL("../static/default-avatar.zip", import.meta.url)) });
       } else if (input.action === "run-start") {
         await serial(async () => {
           await stopRuntime();

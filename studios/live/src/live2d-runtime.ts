@@ -1,6 +1,7 @@
 import { Application, ShaderSystem } from 'pixi.js'
 import { install } from '@pixi/unsafe-eval'
 import { Live2DModel, config, type Cubism4InternalModel } from 'pixi-live2d-display/cubism4'
+import { fixWhaleEyes } from './whale-eye-fix'
 
 install({ ShaderSystem })
 config.sound = false
@@ -38,6 +39,9 @@ export class Live2dStage {
   }
   async load(url: string): Promise<void> {
     const model = await Live2DModel.from<typeof Live2DModel<Cubism4InternalModel>>(url, { autoUpdate: false, autoInteract: false })
+    if (this.disposed) { model.destroy({ children: true, texture: true, baseTexture: true }); return }
+    try { await fixWhaleEyes(model.internalModel, url) }
+    catch (error) { model.destroy({ children: true, texture: true, baseTexture: true }); throw error }
     if (this.disposed) { model.destroy({ children: true, texture: true, baseTexture: true }); return }
     this.model = model
     const internal = model.internalModel, ids = [...(internal.settings.getLipSyncParameters() ?? [])]

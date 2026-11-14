@@ -1,6 +1,6 @@
-# Live2D 本地验证
+# Live2D 直播形象
 
-0.3.0 增加 Live2D ZIP 导入、预览、语音口型、已有表情切换和 OBS 只读形象层，保留 VRM 与图片。当前使用 Live2D 官方 Haru 样例验证；没有制作专属 DeepSeek 角色立绘、PSD 拆分或 Cubism 绑定。
+工作室内置鲸鱼娘 C13 v4 模型，支持待机、眨眼、呼吸、语音口型与七个表情，也支持导入其他 Live2D、VRM 和图片形象。已有的用户形象优先；安装官方 Core 后，无自定义形象时自动加载鲸鱼娘 Live2D，并可在设置中重新载入。未安装 Core 时显示静态鲸鱼娘。
 
 ## 使用
 
@@ -14,11 +14,11 @@
 
 ## 构建与许可
 
-普通 `npm run build` 不下载或包含官方 Core 和样例，并清理前一次本地验证构建的这些文件。运行 Live2D 需要另行准备官方运行库；不含 Core 的包会明确拒绝 Live2D 导入，VRM 和图片仍可使用。
+普通 `npm run build` 不下载或包含官方 Core 和样例，并清理前一次本地验证构建的这些文件。安装版需要用户自行从 [Live2D 官方 Cubism SDK](https://www.live2d.com/sdk/download/web/) 获取适用的 `live2dcubismcore.min.js`，放到已安装插件的 `static/` 目录，然后重启应用。缺少 Core 时界面会提示，静态形象和 VRM 仍可使用。
 
-本机开发资源位于被 Git 忽略的 `.local-live2d/`：`live2dcubismcore.min.js`、`Haru.zip`、`NOTICE.txt` 和 `manifest.json`。运行 `npm run build -- --local-development`，完成检查后用 `npm run pack -- --local-development` 生成 `artifacts/local-development/dsh-studio-live-0.3.0.tgz`。含官方资源时普通打包入口会拒绝，防止误作公开包。直接运行底层 `npm pack` 不经过此检查；开发资源包不得上传公开仓库。
+本机开发资源位于被 Git 忽略的 `.local-live2d/`：`live2dcubismcore.min.js`、`Haru.zip`、`NOTICE.txt` 和 `manifest.json`。运行 `npm run build -- --local-development` 可在本机开发构建中使用这些资源；不要将含官方资源的开发构建作为公开安装包发布。
 
-本库自有代码采用 MIT；PixiJS、pixi-live2d-display 与 fflate 的许可不替代 Live2D 官方条款。Cubism Core 适用 [Live2D Proprietary Software License Agreement](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html)，Haru 适用[免费素材条款](https://www.live2d.com/eula/live2d-free-material-license-agreement_en.html)及[样例模型条款](https://www.live2d.com/eula/live2d-sample-model-terms_en.html)。官方[发行许可说明](https://www.live2d.com/en/download/cubism-sdk/release-license/)允许开发试用；可导入任意模型的直播软件属于需要单独确认发行许可的应用范围。本次只安装本地验证包，未发布包含运行库或样例的公开发行版。后续专属 DeepSeek 模型需另行准备并确认美术与角色授权。
+本库自有代码采用 MIT；PixiJS、pixi-live2d-display 与 fflate 的许可不替代 Live2D 官方条款。Cubism Core 适用 [Live2D Proprietary Software License Agreement](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html)，Haru 适用[免费素材条款](https://www.live2d.com/eula/live2d-free-material-license-agreement_en.html)及[样例模型条款](https://www.live2d.com/eula/live2d-sample-model-terms_en.html)。官方[发行许可说明](https://www.live2d.com/en/download/cubism-sdk/release-license/)允许开发试用；可导入任意模型的直播软件属于需要单独确认发行许可的应用范围。公开发行包不包含官方运行库或样例。
 
 Haru 来源：`Live2D/CubismWebSamples`，固定提交 `b1de66b0b1f1cb881d95fb6158622aeb6a2827bd`，目录 `Samples/Resources/Haru/`。模型资源 SHA-256、Core 下载地址及 SHA-256 记在本地构建清单内。
 

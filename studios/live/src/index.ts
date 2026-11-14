@@ -133,7 +133,7 @@ export async function apply(ctx: Host & Context): Promise<void> {
       for await (const chunk of req) { size += chunk.length; if (size > 8_000_000) throw new Error('请求过大'); chunks.push(chunk) }
       const input = record(JSON.parse(Buffer.concat(chunks).toString('utf8')))
       if (input.action === 'avatar-options') {
-        send(res, 200, { live2dAvailable: !!core, sampleAvailable: !!core && !!sample })
+        send(res, 200, { live2dAvailable: !!core, sampleAvailable: !!core && !!sample, defaultModelAvailable: existsSync(new URL('../static/default-avatar.zip', import.meta.url)) })
       } else if (input.action === 'run-start') {
         await serial(async () => { await stopRuntime(); runController = new AbortController(); runId = randomUUID(); leaseAt = Date.now() })
         send(res, 200, { runId, overlayUrl })
