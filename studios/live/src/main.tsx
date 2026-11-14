@@ -8,6 +8,12 @@ import { createAvatarStage, type AvatarStage } from './avatar-stage'
 import { avatarAsset } from './assets'
 import { BridgePanel } from './bridge'
 import { gameActions, minecraftActions, newFarm, parseDecision, planFarm, stepFarm, type FarmAction } from './game'
+import { QUALITIES, QUALITY_STORAGE_KEY, parseQuality, previewResolution, type LiveQuality } from './quality'
+
+/** 读取本机保存的清晰度；读不到时用标准。 */
+function savedQuality(): LiveQuality {
+  try { return parseQuality(localStorage.getItem(QUALITY_STORAGE_KEY)) } catch { return 'standard' }
+}
 
 const button = 'rounded-lg border border-slate-300 px-3 py-2 text-sm hover:bg-slate-100 disabled:opacity-40 dark:border-slate-700 dark:hover:bg-slate-800'
 const field = 'w-full rounded-lg border border-slate-300 bg-transparent p-2 text-sm dark:border-slate-700'
@@ -38,6 +44,9 @@ function App() {
   const [gamePort, setGamePort] = useState(33107), [gameToken, setGameToken] = useState(''), [gameState, setGameState] = useState<Record<string, unknown>>()
   const [minecraftPort, setMinecraftPort] = useState(25565), [minecraftName, setMinecraftName] = useState('DshLiveBot')
   const [goal, setGoal] = useState('种植、浇水并收获作物，轻松地和观众聊天。'), [latency, setLatency] = useState<number>()
+  /** 清晰度：决定 OBS 形象源尺寸与工作室内预览的渲染倍率，保存在本机 */
+  const [quality, setQuality] = useState<LiveQuality>(savedQuality)
+  const changeQuality = (value: LiveQuality) => { setQuality(value); try { localStorage.setItem(QUALITY_STORAGE_KEY, value) } catch { /* 无法保存时本次仍然生效 */ } }
   const alive = useRef(true), runtime = useRef<Runtime | null>(null), preview = useRef<HTMLDivElement>(null), stage = useRef<AvatarStage | undefined>(undefined)
   const inbox = useRef<Comment[]>([]), seen = useRef(new Set<string>()), farmState = useRef(farm), actualState = useRef(gameState)
   const frame = useRef<AudioFrame>({ text: '', speaking: false, mouth: 0 })
@@ -190,12 +199,12 @@ function App() {
     setAvatarReady(false)
     if (!asset || !['vrm', 'live2d'].includes(asset.kind) || !preview.current) return
     const controller = new AbortController(); let view: AvatarStage | undefined
-    void createAvatarStage(preview.current, asset.kind, asset.blob, asset.modelUrl, controller.signal, report).then(value => {
+    void createAvatarStage(preview.current, asset.kind, asset.blob, asset.modelUrl, controller.signal, report, previewResolution(quality, devicePixelRatio)).then(value => {
       if (controller.signal.aborted) { value.dispose(); return }
       view = value; stage.current = value; value.mouth = frame.current.mouth; value.emotion = settings.current.emotion; value.expression = settings.current.expression; setAvatarReady(true)
     }).catch(cause => { if (!controller.signal.aborted) report(cause) })
     return () => { controller.abort(); view?.dispose(); if (stage.current === view) stage.current = undefined }
-  }, [asset])
+  }, [asset, quality])
   useEffect(() => { if (stage.current) stage.current.emotion = emotion }, [emotion, asset])
   useEffect(() => { if (stage.current) stage.current.expression = expression }, [expression])
   return <main className="mx-auto min-h-screen max-w-7xl space-y-5 bg-white p-5 text-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:scheme-dark">
@@ -221,6 +230,7 @@ function App() {
         <label className="block space-y-2 text-sm"><span>形象 Live2D ZIP／VRM／图片</span><input className={field} type="file" disabled={running || avatarBusy} accept=".zip,.vrm,image/png,image/webp,image/jpeg" onChange={e => { const file = e.target.files?.[0]; if (file) guarded(() => importAvatar(file)) }} /></label>
         {sampleAvailable && <button className={button} disabled={running || avatarBusy} onClick={() => guarded(async () => { const response = await fetch('/studio-projects/live/sample'); if (!response.ok) throw new Error('官方样例暂不可用'); await importAvatar(await response.blob()) })}>载入 Live2D 官方样例</button>}
         {asset?.kind === 'live2d' && <div className="space-y-2 text-xs text-slate-600 dark:text-slate-400"><p>Live2D · {asset.name} · {avatarReady ? '已加载' : '加载中'}</p><p>ZIP 需要包含 model3.json、moc3 和引用的 PNG 贴图；仅支持模型已有的动作与表情。</p>{sampleAvailable && <details><summary className="cursor-pointer">官方样例版权说明</summary><p className="mt-2">Haru 样例版权归 Live2D Inc. 所有，仅用于本地开发验证。This content uses sample data owned and copyrighted by Live2D Inc.</p></details>}</div>}
+        <label className="block space-y-2 text-sm"><span>清晰度</span><select aria-label="清晰度" className={field} value={quality} onChange={e => changeQuality(parseQuality(e.target.value))}>{(Object.keys(QUALITIES) as LiveQuality[]).map(key => <option key={key} value={key}>{QUALITIES[key].label}</option>)}</select><span className="block text-xs text-slate-600 dark:text-slate-400">作用于 OBS 形象源（{QUALITIES[quality].width}×{QUALITIES[quality].height}）和这里的预览。已添加过的形象源，在 OBS 里把浏览器源尺寸改成同样大小即可，或重新添加。档位越高越占显卡。</span></label>
         <label className="block space-y-2 text-sm"><span>语音引擎</span><select className={field} value={voice} onChange={e => setVoice(e.target.value)}><option value="cloud">云端语音（失败时使用本机语音）</option><option value="system">本机系统语音</option><option value="off">仅字幕</option></select></label>
         {voice === 'cloud' && <label className="block space-y-2 text-sm"><span>音色</span><select className={field} value={voiceName} onChange={e => setVoiceName(e.target.value)}><option value="zh-CN-XiaoyiNeural">晓伊</option><option value="zh-CN-XiaoxiaoNeural">晓晓</option><option value="zh-CN-YunxiNeural">云希</option></select></label>}
         {asset?.kind === 'live2d' ? <label className="block space-y-2 text-sm"><span>Live2D 表情</span><select aria-label="Live2D 表情" className={field} disabled={!asset.expressions.length || !avatarReady} value={expression} onChange={e => setExpression(e.target.value)}><option value="">自然</option>{asset.expressions.map(name => <option key={name} value={name}>{name}</option>)}</select>{!asset.expressions.length && <span className="text-xs text-slate-600 dark:text-slate-400">此模型没有导出独立表情</span>}</label> : <label className="block space-y-2 text-sm"><span>VRM 表情（模型需包含对应表情）</span><select className={field} value={emotion} onChange={e => setEmotion(e.target.value as Emotion)}><option value="neutral">自然</option><option value="happy">开心</option><option value="relaxed">放松</option><option value="surprised">惊讶</option><option value="sad">难过</option></select></label>}
@@ -234,7 +244,7 @@ function App() {
         })}>连接 B站</button><button className={button} disabled={!running} onClick={() => guarded(async () => { const run = runtime.current; if (run) { run.bili = false; await api('bili-stop', { runId: run.id }); setBiliState('B站连接已停止') } })}>断开</button><p role="status" className="text-xs">{biliState}</p></div></details>
         <details><summary className="cursor-pointer text-sm">OBS 场景与叠加层</summary><div className="mt-3 space-y-2"><p className="text-xs text-slate-600 dark:text-slate-400">在 OBS 启用 WebSocket v5。插件添加形象源，开播由 OBS 控制。</p><label className="block text-sm">OBS 端口<input className={field} type="number" value={obsPort} onChange={e => setObsPort(Number(e.target.value))} /></label><label className="block text-sm">OBS WebSocket 密码<input type="password" className={field} value={password} onChange={e => setPassword(e.target.value)} autoComplete="off" /></label><button className={button} onClick={() => guarded(async () => {
           const result = await api('obs-status', { port: obsPort, password }); const list = result.scenes as { currentProgramSceneName?: string; scenes?: { sceneName: string }[] }; setScenes(list.scenes?.map(item => item.sceneName) ?? []); setScene(list.currentProgramSceneName ?? ''); setObs((result.stream as { outputActive: boolean }).outputActive ? 'OBS 已连接 · 正在推流' : 'OBS 已连接 · 未推流')
-        })}>检查 OBS</button><p className="text-xs">{obs}</p>{scenes.length > 0 && <><select aria-label="OBS 场景" className={field} value={scene} onChange={e => setScene(e.target.value)}>{scenes.map(item => <option key={item}>{item}</option>)}</select><button className={button} onClick={() => guarded(async () => { await api('obs-overlay', { port: obsPort, password, scene }); setObs('形象浏览器源已添加到场景：' + scene) })}>添加形象浏览器源</button></>}<label className="block text-xs">本机叠加层地址<input className={field} value={overlayUrl} readOnly /></label><p className="text-xs text-slate-600 dark:text-slate-400">语音捕获 dsh 应用音频；叠加层不重复播放。游戏使用 OBS 游戏捕获。</p></div></details>
+        })}>检查 OBS</button><p className="text-xs">{obs}</p>{scenes.length > 0 && <><select aria-label="OBS 场景" className={field} value={scene} onChange={e => setScene(e.target.value)}>{scenes.map(item => <option key={item}>{item}</option>)}</select><button className={button} onClick={() => guarded(async () => { await api('obs-overlay', { port: obsPort, password, scene, quality }); setObs('形象浏览器源已添加到场景：' + scene + '（' + QUALITIES[quality].width + '×' + QUALITIES[quality].height + '）') })}>添加形象浏览器源</button></>}<label className="block text-xs">本机叠加层地址<input className={field} value={overlayUrl} readOnly /></label><p className="text-xs text-slate-600 dark:text-slate-400">语音捕获 dsh 应用音频；叠加层不重复播放。游戏使用 OBS 游戏捕获。</p></div></details>
         <BridgePanel active={running} enqueue={enqueue} report={report} />
         <p className="border-t border-slate-200 pt-3 text-xs leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-400">使用 dsh 默认文本模型。记录分别保存在“直播工作室 · 弹幕”和“直播工作室 · 游戏”会话，可在主窗口和悬浮球查看。</p>
       </aside>

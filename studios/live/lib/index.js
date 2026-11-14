@@ -25059,6 +25059,17 @@ function live2dContentType(path) {
   return path.toLowerCase().endsWith(".png") ? "image/png" : path.toLowerCase().endsWith(".json") ? "application/json" : "application/octet-stream";
 }
 
+// studios/live/src/quality.ts
+init_define_STUDIO_PROJECT();
+var QUALITIES = {
+  standard: { label: "\u6807\u51C6 540p\uFF08\u6700\u7701\u8D44\u6E90\uFF09", width: 960, height: 540 },
+  hd: { label: "\u9AD8\u6E05 1080p", width: 1920, height: 1080 },
+  uhd: { label: "\u8D85\u6E05 1440p", width: 2560, height: 1440 }
+};
+function parseQuality(value) {
+  return value === "hd" || value === "uhd" ? value : "standard";
+}
+
 // studios/live/src/index.ts
 var name = "dsh-studio-live";
 var inject = ["studioProjects", "tools"];
@@ -25365,7 +25376,9 @@ async function apply(ctx) {
           send(res, 200, { version, stream, scenes, overlayUrl });
         } else {
           if (typeof input.scene !== "string" || !input.scene || input.scene.length > 256) throw new Error("\u8BF7\u9009\u62E9 OBS \u573A\u666F");
-          const result = await obsRequest(input.port, input.password, "CreateInput", { sceneName: input.scene, inputName: "DSH \u76F4\u64AD\u5F62\u8C61 " + Date.now(), inputKind: "browser_source", inputSettings: { url: overlayUrl, width: 960, height: 540 }, sceneItemEnabled: true });
+          if (input.quality !== void 0 && !["standard", "hd", "uhd"].includes(String(input.quality))) throw new Error("\u6E05\u6670\u5EA6\u65E0\u6548");
+          const size2 = QUALITIES[parseQuality(input.quality)];
+          const result = await obsRequest(input.port, input.password, "CreateInput", { sceneName: input.scene, inputName: "DSH \u76F4\u64AD\u5F62\u8C61 " + Date.now(), inputKind: "browser_source", inputSettings: { url: overlayUrl, width: size2.width, height: size2.height }, sceneItemEnabled: true });
           send(res, 200, result);
         }
       } else if (input.action === "game-state" || input.action === "game-action") {

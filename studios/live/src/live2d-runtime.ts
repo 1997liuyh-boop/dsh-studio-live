@@ -15,8 +15,9 @@ export class Live2dStage {
   private expressionRequest = 0
   mouth = 0
   emotion = 'neutral'
-  constructor(private container: HTMLElement, private report: (error: unknown) => void) {
-    this.app = new Application({ backgroundAlpha: 0, antialias: true, resolution: Math.min(devicePixelRatio, 1.25), autoDensity: true, powerPreference: 'low-power' })
+  /** @param resolution 渲染倍率（画布像素 / 布局像素），由清晰度决定；缺省为屏幕倍率，最高 1.25。 */
+  constructor(private container: HTMLElement, private report: (error: unknown) => void, resolution = Math.min(devicePixelRatio, 1.25)) {
+    this.app = new Application({ backgroundAlpha: 0, antialias: true, resolution, autoDensity: true, powerPreference: 'low-power' })
     this.app.view.className = 'h-full w-full'
     container.append(this.app.view)
     this.app.ticker.maxFPS = 30

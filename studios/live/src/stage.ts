@@ -16,9 +16,10 @@ export class VrmStage {
   private previous = 0
   mouth = 0
   emotion: Emotion = 'neutral'
-  constructor(private container: HTMLElement) {
+  /** @param resolution 渲染倍率（画布像素 / 布局像素），由清晰度决定；缺省为屏幕倍率，最高 1.25。 */
+  constructor(private container: HTMLElement, resolution = Math.min(devicePixelRatio, 1.25)) {
     this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' })
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.25))
+    this.renderer.setPixelRatio(resolution)
     this.renderer.setClearColor(0x000000, 0)
     this.renderer.domElement.className = 'h-full w-full'
     container.append(this.renderer.domElement)

@@ -11,6 +11,7 @@ import { BiliGateway } from './bilibili'
 import { synthesize } from './tts'
 import { MinecraftAdapter } from './minecraft'
 import { readLive2dPackage, live2dContentType, type Live2dPackage } from './live2d-package'
+import { QUALITIES, parseQuality } from './quality'
 
 export const name = 'dsh-studio-live'
 export const inject = ['studioProjects', 'tools']
@@ -194,7 +195,10 @@ export async function apply(ctx: Host & Context): Promise<void> {
           send(res, 200, { version, stream, scenes, overlayUrl })
         } else {
           if (typeof input.scene !== 'string' || !input.scene || input.scene.length > 256) throw new Error('请选择 OBS 场景')
-          const result = await obsRequest(input.port, input.password, 'CreateInput', { sceneName: input.scene, inputName: 'DSH 直播形象 ' + Date.now(), inputKind: 'browser_source', inputSettings: { url: overlayUrl, width: 960, height: 540 }, sceneItemEnabled: true })
+          // 浏览器源尺寸决定叠加层清晰度：叠加层按实际尺寸整体放大，形象画布按同样倍率渲染
+          if (input.quality !== undefined && !['standard', 'hd', 'uhd'].includes(String(input.quality))) throw new Error('清晰度无效')
+          const size = QUALITIES[parseQuality(input.quality)]
+          const result = await obsRequest(input.port, input.password, 'CreateInput', { sceneName: input.scene, inputName: 'DSH 直播形象 ' + Date.now(), inputKind: 'browser_source', inputSettings: { url: overlayUrl, width: size.width, height: size.height }, sceneItemEnabled: true })
           send(res, 200, result)
         }
       } else if (input.action === 'game-state' || input.action === 'game-action') {

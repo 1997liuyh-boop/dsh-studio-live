@@ -1,4 +1,5 @@
 import { createAvatarStage, type AvatarStage } from './avatar-stage'
+import { OVERLAY_BASE, overlayScale } from './quality'
 
 const token = new URLSearchParams(location.search).get('token') ?? ''
 const image = document.querySelector<HTMLImageElement>('img')!
@@ -7,6 +8,21 @@ const caption = document.querySelector('p')!
 let version = -1, stage: AvatarStage | undefined, disposed = false
 let loading: AbortController | undefined
 let renderingIssue = ''
+/** 当前缩放倍率：叠加层按设计尺寸排版，再整体放大到 OBS 浏览器源的实际尺寸，形象画布按同样倍率渲染 */
+let scale = 1
+/** 按浏览器源尺寸整体缩放；倍率变了就重建形象画布，让它按新倍率渲染 */
+function applyScale(): void {
+  const next = overlayScale(window.innerWidth, window.innerHeight)
+  document.body.style.width = OVERLAY_BASE.width + 'px'
+  document.body.style.height = OVERLAY_BASE.height + 'px'
+  document.body.style.transformOrigin = '0 0'
+  document.body.style.transform = next === 1 ? '' : `scale(${next})`
+  if (next === scale) return
+  scale = next
+  version = -1
+}
+applyScale()
+window.addEventListener('resize', applyScale)
 const report = (error: unknown) => { renderingIssue = error instanceof Error ? error.message : '形象加载失败'; if (!disposed) caption.textContent = renderingIssue }
 
 /** OBS 只读取形象状态，不播放第二份音频；声音捕获 dsh 应用音频。 */
@@ -33,7 +49,7 @@ async function refresh(): Promise<void> {
           if (!asset.ok) throw new Error('形象文件不可用')
           blob = await asset.blob()
         }
-        const view = await createAvatarStage(container, state.avatarKind, blob, state.modelUrl, controller.signal, report)
+        const view = await createAvatarStage(container, state.avatarKind, blob, state.modelUrl, controller.signal, report, scale)
         if (disposed || controller.signal.aborted) { view.dispose(); return }
         stage = view; container.dataset.avatarReady = 'true'
       }

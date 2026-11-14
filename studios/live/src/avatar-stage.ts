@@ -2,7 +2,7 @@ import { VrmStage, type Emotion } from './stage'
 
 export interface AvatarStage { mouth: number; emotion: Emotion | string; expression?: string; dispose(): void }
 interface Live2dView extends AvatarStage { load(url: string): Promise<void> }
-declare global { interface Window { Live2DCubismCore?: object; dshLive2d?: { Live2dStage: new (container: HTMLElement, report: (error: unknown) => void) => Live2dView } } }
+declare global { interface Window { Live2DCubismCore?: object; dshLive2d?: { Live2dStage: new (container: HTMLElement, report: (error: unknown) => void, resolution?: number) => Live2dView } } }
 
 const scripts = new Map<string, Promise<void>>()
 function loadScript(url: URL): Promise<void> {
@@ -20,8 +20,11 @@ function loadScript(url: URL): Promise<void> {
   return pending
 }
 
-/** 按模型类型创建渲染器；取消加载或加载失败时释放已分配的画布。 */
-export async function createAvatarStage(container: HTMLElement, kind: string, blob: Blob | undefined, modelUrl: string, signal: AbortSignal, report: (error: unknown) => void): Promise<AvatarStage> {
+/**
+ * 按模型类型创建渲染器；取消加载或加载失败时释放已分配的画布。
+ * @param resolution 渲染倍率，由清晰度决定；缺省时各渲染器使用屏幕倍率（最高 1.25）。
+ */
+export async function createAvatarStage(container: HTMLElement, kind: string, blob: Blob | undefined, modelUrl: string, signal: AbortSignal, report: (error: unknown) => void, resolution?: number): Promise<AvatarStage> {
   signal.throwIfAborted()
   let view: AvatarStage
   if (kind === 'live2d') {
@@ -32,7 +35,7 @@ export async function createAvatarStage(container: HTMLElement, kind: string, bl
     if (!window.dshLive2d) await loadScript(runtimeUrl('live2d.js'))
     signal.throwIfAborted()
     if (!window.dshLive2d) throw new Error('Live2D 渲染器未初始化')
-    const stage = new window.dshLive2d.Live2dStage(container, report)
+    const stage = new window.dshLive2d.Live2dStage(container, report, resolution)
     view = stage
     const stopped = () => stage.dispose()
     signal.addEventListener('abort', stopped, { once: true })
@@ -41,7 +44,7 @@ export async function createAvatarStage(container: HTMLElement, kind: string, bl
     finally { signal.removeEventListener('abort', stopped) }
   } else {
     if (!blob) throw new Error('VRM 形象文件缺失')
-    const stage = new VrmStage(container)
+    const stage = new VrmStage(container, resolution)
     view = stage
     const stopped = () => stage.dispose()
     signal.addEventListener('abort', stopped, { once: true })

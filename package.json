@@ -1,6 +1,6 @@
 {
   "name": "dsh-studio-live",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "AI 游戏直播：dsh 模型、弹幕队列、语音形象、OBS 与星露谷适配",
   "type": "module",
   "license": "MIT",
